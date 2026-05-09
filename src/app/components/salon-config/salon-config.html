@@ -1,0 +1,62 @@
+<div class="salon-config-container">
+  <!-- Header -->
+  <div class="config-header">
+    <button class="btn-back" (click)="volver()">← Volver</button>
+    <h2>Configuración del Salón</h2>
+    <button class="btn btn-primary" (click)="toggleFormulario()">
+      {{ mostrarFormulario ? '✕ Cancelar' : '➕ Agregar Mesa' }}
+    </button>
+  </div>
+
+  <!-- Formulario nueva mesa -->
+  <div class="form-card" *ngIf="mostrarFormulario">
+    <h3>Nueva Mesa</h3>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Número de mesa</label>
+        <input type="number" [(ngModel)]="nuevaMesa.numero" min="1" placeholder="Ej: 6" />
+      </div>
+      <div class="form-group">
+        <label>Capacidad (personas)</label>
+        <input type="number" [(ngModel)]="nuevaMesa.capacidad" min="1" placeholder="Ej: 4" />
+      </div>
+    </div>
+    <button class="btn btn-primary" (click)="agregarMesa()">Guardar Mesa</button>
+  </div>
+
+  <!-- Lista de mesas -->
+  <div class="mesas-list">
+    <ng-container *ngIf="mesas$ | async as mesas">
+      <div *ngIf="mesas.length === 0" class="empty-state">
+        <p>No hay mesas en este salón</p>
+      </div>
+
+      <div *ngFor="let mesa of mesas" class="mesa-row">
+        <!-- Info -->
+        <div class="mesa-info">
+          <div class="mesa-numero">Mesa #{{ mesa.numero }}</div>
+          <div class="mesa-capacidad">{{ mesa.capacidad }} personas</div>
+        </div>
+
+        <!-- Badge estado -->
+        <span class="estado-badge" [style.background-color]="getEstadoColor(mesa.estado)">
+          {{ mesa.estado }}
+        </span>
+
+        <!-- Cambiar estado -->
+        <select
+          class="estado-select"
+          [value]="mesa.estado"
+          (change)="cambiarEstado(mesa, $any($event.target).value)"
+        >
+          <option [value]="EstadoMesa.DISPONIBLE">Disponible</option>
+          <option [value]="EstadoMesa.RESERVADA">Reservada</option>
+          <option [value]="EstadoMesa.MANTENIMIENTO">Mantenimiento</option>
+        </select>
+
+        <!-- Eliminar -->
+        <button class="btn btn-danger" (click)="eliminarMesa(mesa.id)">🗑 Eliminar</button>
+      </div>
+    </ng-container>
+  </div>
+</div>

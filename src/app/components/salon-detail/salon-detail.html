@@ -1,0 +1,66 @@
+<div class="salon-detail-container">
+  <ng-container *ngIf="salon$ | async as salon; else loading">
+    <!-- Header -->
+    <div class="salon-header">
+      <h2>{{ salon.nombre }}</h2>
+      <span
+        class="salon-status-badge"
+        [class.habilitado]="salon.habilitado"
+        [class.deshabilitado]="!salon.habilitado"
+      >
+        {{ salon.habilitado ? '✓ Habilitado' : '✗ Deshabilitado' }}
+      </span>
+      <button class="btn btn-secondary" (click)="irAConfig()">⚙️ Configurar Salón</button>
+    </div>
+
+    <!-- Descripción -->
+    <p class="salon-description">{{ salon.descripcion }}</p>
+
+    <!-- Info -->
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-label">Capacidad</div>
+        <div class="info-value">{{ salon.capacidad }} personas</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">Mesas</div>
+        <div class="info-value">{{ salon.mesas?.length || 0 }}</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">Creado</div>
+        <div class="info-value">{{ salon.fechaCreacion | date: 'short' }}</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">Modificado</div>
+        <div class="info-value">{{ salon.fechaModificacion | date: 'short' }}</div>
+      </div>
+    </div>
+
+    <!-- Mesas -->
+    <div class="mesas-section">
+      <h3>Mesas del Salón</h3>
+      <div class="mesas-interactive-grid">
+        <ng-container *ngIf="mesas$ | async as mesas">
+          <div
+            *ngFor="let mesa of mesas"
+            class="mesa-card"
+            [style.border-color]="getEstadoColor(mesa.estado)"
+            (click)="irAMesa(mesa)"
+          >
+            <div class="mesa-number">{{ mesa.numero }}</div>
+            <div class="mesa-estado" [style.background-color]="getEstadoColor(mesa.estado)">
+              {{ mesa.estado.charAt(0).toUpperCase() }}
+            </div>
+            <div class="mesa-capacidad">{{ mesa.capacidad }} pers</div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="empty-state">
+      <p>Cargando salón...</p>
+    </div>
+  </ng-template>
+</div>

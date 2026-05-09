@@ -1,0 +1,163 @@
+/* salon-detail.component.css */
+
+.salon-detail-container {
+  padding: 24px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Header */
+.salon-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+}
+
+.salon-header h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0;
+}
+
+.salon-status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.salon-status-badge.habilitado {
+  background-color: #c6f6d5;
+  color: #276749;
+}
+
+.salon-status-badge.deshabilitado {
+  background-color: #fed7d7;
+  color: #9b2c2c;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+.btn-secondary {
+  background-color: #edf2f7;
+  color: #4a5568;
+  margin-left: auto;
+}
+
+/* Descripción */
+.salon-description {
+  color: #718096;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+/* Info Grid */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.info-card {
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.info-label {
+  font-size: 0.75rem;
+  color: #a0aec0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.info-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+/* Mesas */
+.mesas-section h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 16px;
+}
+
+.mesas-interactive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 12px;
+}
+
+.mesa-card {
+  border: 2px solid;
+  border-radius: 12px;
+  padding: 14px 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+
+.mesa-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.mesa-number {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.mesa-estado {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.mesa-capacidad {
+  font-size: 0.75rem;
+  color: #718096;
+}
+
+/* Loading */
+.empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #a0aec0;
+  font-size: 1rem;
+}

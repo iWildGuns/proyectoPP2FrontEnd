@@ -1,0 +1,175 @@
+.salon-config-container {
+  padding: 24px;
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Header */
+.config-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.config-header h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0;
+  flex: 1;
+}
+
+.btn-back {
+  background: #edf2f7;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #4a5568;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.btn-back:hover {
+  background: #e2e8f0;
+}
+
+/* Formulario */
+.form-card {
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.form-card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0 0 16px 0;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.8rem;
+  color: #718096;
+  font-weight: 500;
+}
+
+.form-group input {
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #2d3748;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  border-color: #667eea;
+}
+
+/* Lista mesas */
+.mesas-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mesa-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.mesa-info {
+  flex: 1;
+}
+
+.mesa-numero {
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 0.95rem;
+}
+
+.mesa-capacidad {
+  font-size: 0.8rem;
+  color: #a0aec0;
+}
+
+.estado-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: white;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.estado-select {
+  padding: 8px 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #4a5568;
+  outline: none;
+  cursor: pointer;
+}
+
+.estado-select:focus {
+  border-color: #667eea;
+}
+
+/* Botones */
+.btn {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+.btn-primary {
+  background: #667eea;
+  color: white;
+}
+
+.btn-danger {
+  background: #f56565;
+  color: white;
+}
+
+/* Empty */
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #a0aec0;
+}

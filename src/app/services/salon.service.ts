@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { Salon } from '../models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SalonService {
   private selectedSalonSubject = new BehaviorSubject<Salon | null>(null);
@@ -18,7 +18,7 @@ export class SalonService {
       habilitado: true,
       mesas: ['M1', 'M2', 'M3', 'M4', 'M5'],
       fechaCreacion: new Date(),
-      fechaModificacion: new Date()
+      fechaModificacion: new Date(),
     },
     {
       id: '2',
@@ -28,7 +28,7 @@ export class SalonService {
       habilitado: true,
       mesas: ['M6', 'M7', 'M8'],
       fechaCreacion: new Date(),
-      fechaModificacion: new Date()
+      fechaModificacion: new Date(),
     },
     {
       id: '3',
@@ -38,8 +38,8 @@ export class SalonService {
       habilitado: true,
       mesas: ['M9', 'M10', 'M11'],
       fechaCreacion: new Date(),
-      fechaModificacion: new Date()
-    }
+      fechaModificacion: new Date(),
+    },
   ]);
 
   public salones$ = this.salonesSubject.asObservable();
@@ -54,6 +54,10 @@ export class SalonService {
     this.selectedSalonSubject.next(salon);
   }
 
+  getSalonById(id: string): Observable<Salon | null> {
+    return this.getSalones().pipe(map((salones) => salones.find((s) => s.id === id) ?? null));
+  }
+
   getSelectedSalon(): Observable<Salon | null> {
     return this.selectedSalon$;
   }
@@ -64,11 +68,9 @@ export class SalonService {
   }
 
   updateSalon(salon: Salon): void {
-    const salones = this.salonesSubject.value.map(s => 
-      s.id === salon.id ? salon : s
-    );
+    const salones = this.salonesSubject.value.map((s) => (s.id === salon.id ? salon : s));
     this.salonesSubject.next(salones);
-    
+
     // Si es el salón seleccionado, actualizar también el seleccionado
     if (this.selectedSalonSubject.value?.id === salon.id) {
       this.selectedSalonSubject.next(salon);
@@ -76,9 +78,9 @@ export class SalonService {
   }
 
   deleteSalon(id: string): void {
-    const salones = this.salonesSubject.value.filter(s => s.id !== id);
+    const salones = this.salonesSubject.value.filter((s) => s.id !== id);
     this.salonesSubject.next(salones);
-    
+
     // Si es el salón seleccionado, desseleccionar
     if (this.selectedSalonSubject.value?.id === id) {
       this.selectedSalonSubject.next(null);

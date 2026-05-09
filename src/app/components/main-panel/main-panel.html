@@ -1,0 +1,178 @@
+<div class="main-panel-container">
+  <!-- Vista de Mesa -->
+  <div *ngIf="selectedMesa$ | async as mesa; else salonView" class="mesa-detail">
+    <div class="mesa-header">
+      <button class="back-btn" (click)="deselectMesa()">← Volver</button>
+      <h2>Mesa #{{ mesa.numero }}</h2>
+      <span class="mesa-status-badge" [style.background-color]="getEstadoColor(mesa.estado)">
+        {{ mesa.estado }}
+      </span>
+    </div>
+
+    <!-- Información General -->
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-label">Capacidad</div>
+        <div class="info-value">{{ mesa.capacidad }} personas</div>
+      </div>
+      <div class="info-card" *ngIf="mesa.estado === EstadoMesa.OCUPADA">
+        <div class="info-label">Ocupación</div>
+        <div class="info-value">{{ mesa.clientesActuales }}/{{ mesa.capacidad }}</div>
+      </div>
+    </div>
+
+    <!-- Estado Ocupada -->
+    <div *ngIf="mesa.estado === EstadoMesa.OCUPADA" class="ocupada-section">
+      <h3>Información de Consumo</h3>
+
+      <!-- Grid de Datos -->
+      <div class="consumo-grid">
+        <div class="consumo-card">
+          <div class="consumo-label">Tiempo Ocupada</div>
+          <div class="consumo-value">{{ getTiempoOcupacion(mesa) }}</div>
+        </div>
+        <div class="consumo-card">
+          <div class="consumo-label">Mesero</div>
+          <div class="consumo-value">{{ mesa.meseroAsignado }}</div>
+        </div>
+        <div class="consumo-card">
+          <div class="consumo-label">Consumo Total</div>
+          <div class="consumo-value" style="color: #667eea; font-weight: bold">
+            ${{ mesa.consumoActual }}
+          </div>
+        </div>
+        <div class="consumo-card">
+          <div class="consumo-label">Duración Estimada</div>
+          <div class="consumo-value">{{ mesa.duracionEstimada }} min</div>
+        </div>
+      </div>
+
+      <!-- Porcentaje de Ocupación -->
+      <div class="ocupacion-section">
+        <div class="ocupacion-header">
+          <span>Ocupación: {{ getOcupacionPorcentaje(mesa) }}%</span>
+        </div>
+        <div class="ocupacion-bar">
+          <div class="ocupacion-fill" [style.width.%]="getOcupacionPorcentaje(mesa)"></div>
+        </div>
+      </div>
+
+      <!-- Órdenes -->
+      <div class="ordenes-section">
+        <h4>Órdenes ({{ mesa.ordenes?.length || 0 }})</h4>
+        <div class="ordenes-list" *ngIf="mesa.ordenes && mesa.ordenes.length > 0; else sinOrdenes">
+          <div *ngFor="let orden of mesa.ordenes" class="orden-item">📋 {{ orden }}</div>
+        </div>
+        <ng-template #sinOrdenes>
+          <p class="sin-datos">Sin órdenes registradas</p>
+        </ng-template>
+      </div>
+
+      <!-- Botones de Acción -->
+      <div class="acciones">
+        <button class="btn btn-primary">➕ Agregar Orden</button>
+        <button class="btn btn-warning">💳 Procesar Pago</button>
+        <button class="btn btn-danger">🔄 Limpiar Mesa</button>
+      </div>
+    </div>
+
+    <!-- Estado Disponible/Reservada/Mantenimiento -->
+    <div *ngIf="mesa.estado !== EstadoMesa.OCUPADA" class="empty-mesa-section">
+      <div class="empty-state-mesa">
+        <p *ngIf="mesa.estado === EstadoMesa.DISPONIBLE">✅</p>
+        <p *ngIf="mesa.estado === EstadoMesa.RESERVADA">🔒</p>
+        <p *ngIf="mesa.estado === EstadoMesa.MANTENIMIENTO">⚙️</p>
+        <h3>
+          <span *ngIf="mesa.estado === EstadoMesa.DISPONIBLE">Mesa Disponible</span>
+          <span *ngIf="mesa.estado === EstadoMesa.RESERVADA">Mesa Reservada</span>
+          <span *ngIf="mesa.estado === EstadoMesa.MANTENIMIENTO">Mantenimiento</span>
+        </h3>
+        <button *ngIf="mesa.estado === EstadoMesa.DISPONIBLE" class="btn btn-primary">
+          🪑 Ocupar Mesa
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vista de Salón (sin mesa seleccionada) -->
+  <ng-template #salonView>
+    <div *ngIf="selectedSalon$ | async as salon; else noSelection" class="salon-detail">
+      <!-- Header del Salón -->
+      <div class="salon-header">
+        <h2>{{ salon.nombre }}</h2>
+        <span
+          class="salon-status-badge"
+          [class.habilitado]="salon.habilitado"
+          [class.deshabilitado]="!salon.habilitado"
+        >
+          {{ salon.habilitado ? '✓ Habilitado' : '✗ Deshabilitado' }}
+        </span>
+      </div>
+
+      <!-- Descripción -->
+      <p class="salon-description">{{ salon.descripcion }}</p>
+
+      <!-- Información Principal -->
+      <div class="info-grid">
+        <div class="info-card">
+          <div class="info-label">Capacidad</div>
+          <div class="info-value">{{ salon.capacidad }} personas</div>
+        </div>
+        <div class="info-card">
+          <div class="info-label">Mesas</div>
+          <div class="info-value">{{ salon.mesas?.length || 0 }}</div>
+        </div>
+        <div class="info-card">
+          <div class="info-label">Creado</div>
+          <div class="info-value">{{ salon.fechaCreacion | date: 'short' }}</div>
+        </div>
+        <div class="info-card">
+          <div class="info-label">Modificado</div>
+          <div class="info-value">{{ salon.fechaModificacion | date: 'short' }}</div>
+        </div>
+      </div>
+
+      <!-- Listado de Mesas Interactivas -->
+      <div class="mesas-section">
+        <h3>Mesas del Salón</h3>
+        <div class="mesas-interactive-grid">
+          <ng-container *ngIf="mesasPorSalon$ | async as mesas">
+            <ng-container *ngFor="let mesaId of salon.mesas; let i = index">
+              <ng-container *ngFor="let mesa of mesas">
+                <div
+                  *ngIf="mesa.id === mesaId"
+                  class="mesa-card"
+                  [style.border-color]="getEstadoColor(mesa.estado)"
+                  (click)="selectMesa(mesa)"
+                >
+                  <div class="mesa-number">{{ mesa.numero }}</div>
+                  <div class="mesa-estado" [style.background-color]="getEstadoColor(mesa.estado)">
+                    {{ mesa.estado.charAt(0).toUpperCase() }}
+                  </div>
+                  <div class="mesa-capacidad">{{ mesa.capacidad }} pers</div>
+                  <div *ngIf="mesa.estado === EstadoMesa.OCUPADA" class="mesa-ocupacion">
+                    {{ mesa.clientesActuales }}/{{ mesa.capacidad }}
+                  </div>
+                  <div *ngIf="mesa.estado === EstadoMesa.OCUPADA" class="mesa-tiempo">
+                    {{ getTiempoOcupacion(mesa) }}
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sin selección -->
+    <ng-template #noSelection>
+      <div class="no-selection">
+        <div class="empty-state">
+          <p>📋</p>
+          <h3>Selecciona un salón</h3>
+          <p>Haz clic en un salón de la lista izquierda para ver sus detalles</p>
+        </div>
+      </div>
+    </ng-template>
+  </ng-template>
+</div>

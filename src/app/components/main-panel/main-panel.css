@@ -1,0 +1,452 @@
+.main-panel-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 20px;
+}
+
+.salon-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+}
+
+.salon-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #667eea;
+}
+
+.salon-header h2 {
+  margin: 0;
+  color: #333;
+  font-size: 24px;
+}
+
+.salon-status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.salon-status-badge.habilitado {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.salon-status-badge.deshabilitado {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.salon-description {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Grid de información */
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.info-card {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-label {
+  font-size: 12px;
+  color: #999;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-value {
+  font-size: 16px;
+  color: #333;
+  font-weight: 600;
+}
+
+/* Sección de Mesas */
+.mesas-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.mesas-section h3 {
+  margin: 0;
+  color: #333;
+  font-size: 16px;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 10px;
+}
+
+.mesas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 10px;
+}
+
+.mesa-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 13px;
+  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.mesa-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+}
+
+.sin-datos {
+  margin: 20px 0;
+  color: #999;
+  text-align: center;
+  font-style: italic;
+}
+
+/* Estado vacío */
+.no-selection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.empty-state {
+  text-align: center;
+  color: #999;
+  padding: 40px;
+}
+
+.empty-state p:first-child {
+  font-size: 64px;
+  margin: 0 0 20px 0;
+}
+
+.empty-state h3 {
+  margin: 0 0 10px 0;
+  color: #666;
+  font-size: 18px;
+}
+
+.empty-state p {
+  margin: 0;
+  font-size: 14px;
+  color: #999;
+}
+
+/* ===== ESTILOS PARA VISTA DE MESA ===== */
+.mesa-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+}
+
+.mesa-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #667eea;
+}
+
+.back-btn {
+  padding: 8px 12px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.back-btn:hover {
+  background-color: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+.mesa-header h2 {
+  margin: 0;
+  flex: 1;
+  color: #333;
+  font-size: 24px;
+}
+
+.mesa-status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+}
+
+/* Sección Ocupada */
+.ocupada-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex: 1;
+}
+
+.ocupada-section h3 {
+  margin: 0 0 10px 0;
+  color: #333;
+  font-size: 16px;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 10px;
+}
+
+/* Grid de Consumo */
+.consumo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.consumo-card {
+  background-color: #f8f9fa;
+  padding: 12px;
+  border-radius: 6px;
+  border-left: 3px solid #667eea;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.consumo-label {
+  font-size: 11px;
+  color: #999;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.consumo-value {
+  font-size: 15px;
+  color: #333;
+  font-weight: 600;
+}
+
+/* Barra de Ocupación */
+.ocupacion-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ocupacion-header {
+  font-size: 13px;
+  color: #666;
+  font-weight: 600;
+}
+
+.ocupacion-bar {
+  width: 100%;
+  height: 20px;
+  background-color: #eee;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.ocupacion-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  transition: width 0.3s ease;
+}
+
+/* Órdenes */
+.ordenes-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ordenes-section h4 {
+  margin: 0;
+  color: #333;
+  font-size: 14px;
+}
+
+.ordenes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.orden-item {
+  padding: 8px 12px;
+  background-color: #e8ebff;
+  border-radius: 4px;
+  color: #667eea;
+  font-size: 12px;
+  font-weight: 600;
+  border-left: 3px solid #667eea;
+}
+
+/* Botones de Acción */
+.acciones {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+}
+
+.btn {
+  flex: 1;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background-color: #667eea;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #5568d3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+}
+
+.btn-warning {
+  background-color: #ffd43b;
+  color: #333;
+}
+
+.btn-warning:hover {
+  background-color: #ffca0f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 212, 59, 0.3);
+}
+
+.btn-danger {
+  background-color: #ff6b6b;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #ff5252;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(255, 107, 107, 0.3);
+}
+
+/* Estado No Ocupada */
+.empty-mesa-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.empty-state-mesa {
+  text-align: center;
+  color: #999;
+  padding: 40px;
+}
+
+.empty-state-mesa p {
+  font-size: 64px;
+  margin: 0 0 20px 0;
+}
+
+.empty-state-mesa h3 {
+  margin: 0 0 20px 0;
+  color: #666;
+  font-size: 18px;
+}
+
+/* Grid Interactivo de Mesas */
+.mesas-interactive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.mesa-card {
+  cursor: pointer;
+}
+
+.mesa-card-content {
+  padding: 15px;
+  border: 3px solid;
+  border-radius: 8px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.mesa-card-content:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.mesa-number {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+}
+
+.mesa-estado {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: white;
+}
+
+.mesa-capacidad {
+  font-size: 12px;
+  color: #666;
+  font-weight: 600;
+}
+
+.mesa-ocupacion {
+  font-size: 13px;
+  color: #ff6b6b;
+  font-weight: 600;
+}
+
+.mesa-tiempo {
+  font-size: 11px;
+  color: #999;
+  font-style: italic;
+}
+}

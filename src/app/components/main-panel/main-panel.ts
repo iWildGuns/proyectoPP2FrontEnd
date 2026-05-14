@@ -19,7 +19,7 @@ export class MainPanelComponent implements OnInit {
 
   constructor(
     private salonService: SalonService,
-    private mesaService: MesaService
+    private mesaService: MesaService,
   ) {
     this.selectedSalon$ = this.salonService.getSelectedSalon();
     this.selectedMesa$ = this.mesaService.getSelectedMesa();

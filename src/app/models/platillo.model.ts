@@ -1,4 +1,4 @@
-export enum CategoriaPlatillo {
+export enum CategoriaPlato {
   ENTRADA = 'entrada',
   PLATO_FUERTE = 'plato_fuerte',
   POSTRE = 'postre',
@@ -10,7 +10,7 @@ export interface Platillo {
   id: string;
   nombre: string;
   descripcion: string;
-  categoria: CategoriaPlatillo;
+  categoria: CategoriaPlato;
   precio: number;
   disponible: boolean;
   tiempoPreparacion: number; // en minutos
@@ -25,7 +25,7 @@ export interface Platillo {
 export interface CrearPlatilloRequest {
   nombre: string;
   descripcion: string;
-  categoria: CategoriaPlatillo;
+  categoria: CategoriaPlato;
   precio: number;
   tiempoPreparacion: number;
   imagenUrl?: string;
@@ -37,7 +37,7 @@ export interface CrearPlatilloRequest {
 export interface ActualizarPlatilloRequest {
   nombre?: string;
   descripcion?: string;
-  categoria?: CategoriaPlatillo;
+  categoria?: CategoriaPlato;
   precio?: number;
   disponible?: boolean;
   tiempoPreparacion?: number;

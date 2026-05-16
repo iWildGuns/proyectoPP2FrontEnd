@@ -1,16 +1,27 @@
+
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Usuario, RolUsuario, LoginRequest } from '../models';
+import api from '../../lib/axios';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private usuarioActualSubject = new BehaviorSubject<Usuario | null>(null);
-  public usuarioActual$ = this.usuarioActualSubject.asObservable();
+
+  private usuarioActualSubject =
+    new BehaviorSubject<Usuario | null>(null);
+
+  public usuarioActual$ =
+    this.usuarioActualSubject.asObservable();
 
   // Usuarios de prueba registrados en el sistema
-  private usuariosRegistrados: { [email: string]: { password: string; usuario: Usuario } } = {
+  private usuariosRegistrados: {
+    [email: string]: {
+      password: string;
+      usuario: Usuario;
+    }
+  } = {
     'juan@restaurant.com': {
       password: 'password123',
       usuario: {
@@ -25,6 +36,7 @@ export class AuthService {
         fechaModificacion: new Date(),
       },
     },
+
     'maria@restaurant.com': {
       password: 'password123',
       usuario: {
@@ -45,87 +57,165 @@ export class AuthService {
     this.cargarUsuarioDelStorage();
   }
 
+  // =========================
+  // AXIOS / BACKEND
+  // =========================
+
+  loginBackend(credentials: LoginRequest) {
+    return api.post('/auth/login', credentials);
+  }
+
+  registerBackend(usuario: any) {
+    return api.post('/auth/register', usuario);
+  }
+
+  getProfileBackend() {
+    return api.get('/auth/profile');
+  }
+
+  logoutBackend() {
+    return api.post('/auth/logout');
+  }
+
+  // =========================
+  // STORAGE LOCAL
+  // =========================
+
   /**
-   * Carga el usuario guardado en localStorage al iniciar la aplicación
+   * Carga el usuario guardado
+   * en localStorage
    */
   private cargarUsuarioDelStorage(): void {
-    const usuarioGuardado = localStorage.getItem('usuarioActual');
+
+    const usuarioGuardado =
+      localStorage.getItem('usuarioActual');
+
     if (usuarioGuardado) {
+
       try {
-        const usuario = JSON.parse(usuarioGuardado);
+
+        const usuario =
+          JSON.parse(usuarioGuardado);
+
         this.usuarioActualSubject.next(usuario);
+
       } catch (error) {
-        console.error('Error al cargar usuario del storage:', error);
+
+        console.error(
+          'Error al cargar usuario del storage:',
+          error
+        );
+
         localStorage.removeItem('usuarioActual');
       }
     }
   }
 
   /**
-   * Intenta iniciar sesión con las credenciales proporcionadas
+   * Login local de prueba
    */
   login(credentials: LoginRequest): Observable<boolean> {
-    // Simular delay de red
-    return new Observable((observer) => {
-      setTimeout(() => {
-        const usuarioData = this.usuariosRegistrados[credentials.email];
 
-        if (usuarioData && usuarioData.password === credentials.password) {
-          // Login exitoso
-          this.usuarioActualSubject.next(usuarioData.usuario);
-          localStorage.setItem('usuarioActual', JSON.stringify(usuarioData.usuario));
-          localStorage.setItem('token', `token_${Date.now()}`);
+    return new Observable((observer) => {
+
+      setTimeout(() => {
+
+        const usuarioData =
+          this.usuariosRegistrados[
+            credentials.email
+          ];
+
+        if (
+          usuarioData &&
+          usuarioData.password === credentials.password
+        ) {
+
+          this.usuarioActualSubject.next(
+            usuarioData.usuario
+          );
+
+          localStorage.setItem(
+            'usuarioActual',
+            JSON.stringify(usuarioData.usuario)
+          );
+
+          localStorage.setItem(
+            'token',
+            `token_${Date.now()}`
+          );
+
           observer.next(true);
+
         } else {
-          // Login fallido
+
           observer.next(false);
         }
+
         observer.complete();
+
       }, 800);
     });
   }
 
   /**
-   * Obtiene el usuario actual como Observable
+   * Usuario actual observable
    */
-  getUsuarioActual(): Observable<Usuario | null> {
+  getUsuarioActual():
+    Observable<Usuario | null> {
+
     return this.usuarioActual$;
   }
 
   /**
-   * Obtiene el usuario actual de forma síncrona
+   * Usuario actual síncrono
    */
-  getCurrentUser(): Usuario | null {
+  getCurrentUser():
+    Usuario | null {
+
     return this.usuarioActualSubject.value;
   }
 
   /**
-   * Verifica si hay un usuario logueado
+   * Verificar login
    */
   isLoggedIn(): boolean {
-    return this.usuarioActualSubject.value !== null;
+
+    return (
+      this.usuarioActualSubject.value !== null
+    );
   }
 
   /**
-   * Cierra la sesión del usuario actual
+   * Logout
    */
   logout(): void {
+
     this.usuarioActualSubject.next(null);
+
     localStorage.removeItem('usuarioActual');
+
     localStorage.removeItem('token');
   }
 
   /**
-   * Verifica si el usuario actual es administrador
+   * Verificar admin
    */
   isAdmin(): boolean {
-    return this.usuarioActualSubject.value?.rol === RolUsuario.ADMIN;
+
+    return (
+      this.usuarioActualSubject.value?.rol ===
+      RolUsuario.ADMIN
+    );
   }
 
   /**
-   * Verifica si el usuario actual es gerente
+   * Verificar gerente
    */
   isGerente(): boolean {
-    return this.usuarioActualSubject.value?.rol === RolUsuario.GERENTE;
+
+    return (
+      this.usuarioActualSubject.value?.rol ===
+      RolUsuario.GERENTE
+    );
   }
 }

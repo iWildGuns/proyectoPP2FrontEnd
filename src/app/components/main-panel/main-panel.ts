@@ -26,7 +26,20 @@ export class MainPanelComponent implements OnInit {
     this.mesasPorSalon$ = this.mesaService.getMesas();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadMesas();
+  }
+
+  loadMesas(): void {
+    this.mesaService.logMesas().subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
 
   selectMesa(mesa: Mesa): void {
     this.mesaService.selectMesa(mesa);

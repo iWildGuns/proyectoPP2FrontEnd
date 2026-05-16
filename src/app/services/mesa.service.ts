@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Mesa, EstadoMesa } from '../models';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MesaService {
   private selectedMesaSubject = new BehaviorSubject<Mesa | null>(null);
@@ -20,10 +21,10 @@ export class MesaService {
       meseroAsignado: 'Carlos',
       horaOcupacion: new Date(Date.now() - 45 * 60000), // hace 45 minutos
       duracionEstimada: 90,
-      consumoActual: 85.50,
+      consumoActual: 85.5,
       ordenes: ['ORD001', 'ORD002'],
       fechaCreacion: new Date(),
-      fechaModificacion: new Date()
+      fechaModificacion: new Date(),
     },
     {
       id: 'M2',
@@ -33,7 +34,7 @@ export class MesaService {
       estado: EstadoMesa.DISPONIBLE,
       ordenes: [],
       fechaCreacion: new Date(),
-      fechaModificacion: new Date()
+      fechaModificacion: new Date(),
     },
     {
       id: 'M3',
@@ -48,7 +49,7 @@ export class MesaService {
       consumoActual: 125.75,
       ordenes: ['ORD003', 'ORD004', 'ORD005'],
       fechaCreacion: new Date(),
-      fechaModificacion: new Date()
+      fechaModificacion: new Date(),
     },
     {
       id: 'M4',
@@ -58,7 +59,7 @@ export class MesaService {
       estado: EstadoMesa.RESERVADA,
       ordenes: [],
       fechaCreacion: new Date(),
-      fechaModificacion: new Date()
+      fechaModificacion: new Date(),
     },
     {
       id: 'M5',
@@ -68,7 +69,7 @@ export class MesaService {
       estado: EstadoMesa.DISPONIBLE,
       ordenes: [],
       fechaCreacion: new Date(),
-      fechaModificacion: new Date()
+      fechaModificacion: new Date(),
     },
     {
       id: 'M6',
@@ -80,10 +81,10 @@ export class MesaService {
       meseroAsignado: 'Juan',
       horaOcupacion: new Date(Date.now() - 60 * 60000), // hace 60 minutos
       duracionEstimada: 120,
-      consumoActual: 95.00,
+      consumoActual: 95.0,
       ordenes: ['ORD006'],
       fechaCreacion: new Date(),
-      fechaModificacion: new Date()
+      fechaModificacion: new Date(),
     },
     {
       id: 'M7',
@@ -93,7 +94,7 @@ export class MesaService {
       estado: EstadoMesa.DISPONIBLE,
       ordenes: [],
       fechaCreacion: new Date(),
-      fechaModificacion: new Date()
+      fechaModificacion: new Date(),
     },
     {
       id: 'M8',
@@ -103,22 +104,29 @@ export class MesaService {
       estado: EstadoMesa.DISPONIBLE,
       ordenes: [],
       fechaCreacion: new Date(),
-      fechaModificacion: new Date()
-    }
+      fechaModificacion: new Date(),
+    },
   ]);
 
   public mesas$ = this.mesasSubject.asObservable();
 
-  constructor() {}
+  constructor(public httpClient: HttpClient) {}
+
+  private readonly API_URL = 'http://localhost:1500';
+
+  logMesas() {
+    console.log('Hola, desde log mesas');
+    return this.httpClient.get(`${this.API_URL}/app/mesas`);
+  }
 
   getMesas(): Observable<Mesa[]> {
     return this.mesas$;
   }
 
   getMesasBySalon(salonId: string): Observable<Mesa[]> {
-    return new Observable(observer => {
-      this.mesasSubject.subscribe(mesas => {
-        observer.next(mesas.filter(m => m.salonId === salonId));
+    return new Observable((observer) => {
+      this.mesasSubject.subscribe((mesas) => {
+        observer.next(mesas.filter((m) => m.salonId === salonId));
       });
     });
   }
@@ -138,12 +146,12 @@ export class MesaService {
   // Calcular tiempo transcurrido desde que se ocupó la mesa
   getTiempoOcupacion(mesa: Mesa): string {
     if (!mesa.horaOcupacion) return '0 minutos';
-    
+
     const ahora = new Date();
     const diferencia = ahora.getTime() - mesa.horaOcupacion.getTime();
     const minutos = Math.floor(diferencia / (1000 * 60));
     const horas = Math.floor(minutos / 60);
-    
+
     if (horas > 0) {
       return `${horas}h ${minutos % 60}m`;
     }
@@ -162,20 +170,18 @@ export class MesaService {
   }
 
   updateMesa(mesa: Mesa): void {
-    const mesas = this.mesasSubject.value.map(m => 
-      m.id === mesa.id ? mesa : m
-    );
+    const mesas = this.mesasSubject.value.map((m) => (m.id === mesa.id ? mesa : m));
     this.mesasSubject.next(mesas);
-    
+
     if (this.selectedMesaSubject.value?.id === mesa.id) {
       this.selectedMesaSubject.next(mesa);
     }
   }
 
   deleteMesa(id: string): void {
-    const mesas = this.mesasSubject.value.filter(m => m.id !== id);
+    const mesas = this.mesasSubject.value.filter((m) => m.id !== id);
     this.mesasSubject.next(mesas);
-    
+
     if (this.selectedMesaSubject.value?.id === id) {
       this.selectedMesaSubject.next(null);
     }

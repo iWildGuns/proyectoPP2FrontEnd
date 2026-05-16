@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Usuario, RolUsuario, LoginRequest } from '../models';
-import api from '../../lib/axios';
+import api from '../../lib/b';
 
 @Injectable({
   providedIn: 'root',

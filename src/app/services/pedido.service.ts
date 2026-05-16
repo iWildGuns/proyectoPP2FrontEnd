@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import API from '../../lib/axios';
+import API from '../../lib/b';
 
 @Injectable({
   providedIn: 'root'

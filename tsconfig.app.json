@@ -8,7 +8,7 @@
   },
   "include": [
     "src/**/*.ts"
-, "src/app/services/plato.service,ts"  ],
+, "src/app/services/plato.service,ts", "src/lib/b"  ],
   "exclude": [
     "src/**/*.spec.ts"
   ]

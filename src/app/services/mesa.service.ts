@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 import { Mesa, EstadoMesa } from '../models';
 
-import api from '../../lib/axios';
+import api from '../../lib/b';
 
 @Injectable({
   providedIn: 'root'

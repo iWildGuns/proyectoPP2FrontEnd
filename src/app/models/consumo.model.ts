@@ -1,43 +1,47 @@
+import { Mesa } from './mesa.model';
+import { Plato } from './platillo.model';
+
 export enum EstadoOrden {
   PENDIENTE = 'pendiente',
   PREPARACION = 'preparacion',
   LISTA = 'lista',
   ENTREGADA = 'entregada',
-  CANCELADA = 'cancelada'
+  CANCELADA = 'cancelada',
 }
 
 export enum EstadoPago {
   PENDIENTE = 'pendiente',
   PARCIAL = 'parcial',
   PAGADO = 'pagado',
-  ANULADO = 'anulado'
+  ANULADO = 'anulado',
 }
 
-export interface ItemOrden {
-  id: string;
-  platilloId: string;
-  cantidad: number;
-  precio: number; // precio unitario
-  subtotal: number;
-  notas?: string;
-  horaOrden: Date;
-  estado: EstadoOrden;
-}
+// export interface ItemOrden {
+//   id: string;
+//   platilloId: string;
+//   cantidad: number;
+//   precio: number; // precio unitario
+//   subtotal: number;
+//   notas?: string;
+//   horaOrden: Date;
+//   estado: EstadoOrden;
+// }
 
 export interface Orden {
   id: string;
-  mesaId: string;
-  salonId: string;
-  items: ItemOrden[];
-  subtotal: number;
-  descuento: number;
-  impuesto: number;
+  items: Plato[];
   total: number;
-  estadoPago: EstadoPago;
-  meseroId?: string;
-  horaInicio: Date;
-  horaFinalizacion?: Date;
   observaciones?: string;
+  mesaId: Mesa['id'];
+  // subtotal: number;
+  // estadoPago: EstadoPago;
+  // mesaId: string;
+  // salonId: string;
+  // descuento: number;
+  // impuesto?: number;
+  // horaInicio: Date;
+  // horaFinalizacion?: Date;
+  // meseroId?: string;
 }
 
 export interface Consumo {

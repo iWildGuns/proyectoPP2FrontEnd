@@ -1,10 +1,12 @@
+import { Mesa } from './mesa.model';
+
 export interface Salon {
   id: string;
   nombre: string;
   descripcion?: string;
   capacidad: number;
   habilitado: boolean;
-  mesas: string[]; // IDs de mesas
+  mesas: Mesa[]; // IDs de mesas
   fechaCreacion: Date;
   fechaModificacion: Date;
 }
@@ -20,4 +22,4 @@ export interface ActualizarSalonRequest {
   descripcion?: string;
   capacidad?: number;
   habilitado?: boolean;
-}
+}k

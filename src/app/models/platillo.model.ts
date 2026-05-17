@@ -1,28 +1,28 @@
+import { Orden } from './consumo.model';
+
 export enum CategoriaPlato {
   ENTRADA = 'entrada',
   PLATO_FUERTE = 'plato_fuerte',
   POSTRE = 'postre',
   BEBIDA = 'bebida',
-  SNACK = 'snack'
+  SNACK = 'snack',
 }
 
-export interface Platillo {
+export interface Plato {
   id: string;
+  ordenId: Orden['id'];
   nombre: string;
   descripcion: string;
   categoria: CategoriaPlato;
   precio: number;
   disponible: boolean;
-  tiempoPreparacion: number; // en minutos
-  imagenUrl?: string;
-  ingredientes?: string[];
-  calorias?: number;
-  alergenos?: string[];
-  fechaCreacion: Date;
-  fechaModificacion: Date;
+  sinGluten: boolean;
+  // imagenUrl?: string;
+  // fechaCreacion: Date;
+  // fechaModificacion: Date;
 }
 
-export interface CrearPlatilloRequest {
+export interface CrearPlatoRequest {
   nombre: string;
   descripcion: string;
   categoria: CategoriaPlato;
@@ -34,7 +34,7 @@ export interface CrearPlatilloRequest {
   alergenos?: string[];
 }
 
-export interface ActualizarPlatilloRequest {
+export interface ActualizarPlatoRequest {
   nombre?: string;
   descripcion?: string;
   categoria?: CategoriaPlato;

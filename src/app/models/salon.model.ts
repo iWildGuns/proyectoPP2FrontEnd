@@ -22,4 +22,4 @@ export interface ActualizarSalonRequest {
   descripcion?: string;
   capacidad?: number;
   habilitado?: boolean;
-}k
+}

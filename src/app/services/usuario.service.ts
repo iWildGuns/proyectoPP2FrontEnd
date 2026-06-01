@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Usuario } from '../models';
-import api from '../../lib/b';
+import { Usuario } from '../models/usuario.model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
+
 
   private usuariosSubject =
     new BehaviorSubject<Usuario[]>([]);
@@ -14,33 +15,33 @@ export class UsuarioService {
   public usuarios$ =
     this.usuariosSubject.asObservable();
 
-  constructor() {}
+  constructor(private http:HttpClient) {}
 
   // =========================
-  // AXIOS / BACKEND
+  // HTTP / BACKEND
   // =========================
 
   getUsuariosBackend() {
-    return api.get('/usuarios');
+    return this.http.get ('http://localhost:3000/usuarios');
   }
 
   getUsuarioByIdBackend(id: string) {
-    return api.get(`/usuarios/${id}`);
+    return this.http.get ('http://localhost:3000/usuarios/${id}');
   }
 
   addUsuarioBackend(usuario: Usuario) {
-    return api.post('/usuarios', usuario);
+    return this.http.post ('http://localhost:3000/usuarios', usuario);
   }
 
   updateUsuarioBackend(
     id: string,
     usuario: Usuario
   ) {
-    return api.put(`/usuarios/${id}`, usuario);
+    return this.http.put ('http://localhost:3000/usuarios/${id}', usuario);
   }
 
   deleteUsuarioBackend(id: string) {
-    return api.delete(`/usuarios/${id}`);
+  return this.http.delete ('http://localhost:3000/usuarios/${id}');
   }
 
   // =========================

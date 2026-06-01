@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Usuario, RolUsuario, LoginRequest } from '../models';
-import api from '../../lib/b';
+
+import { Usuario, LoginRequest, RolUsuario } from '../models/usuario.model';
 
 @Injectable({
   providedIn: 'root',
@@ -52,29 +53,41 @@ export class AuthService {
     },
   };
 
-  constructor() {
+ constructor(private http: HttpClient) {
     this.cargarUsuarioDelStorage();
   }
 
   // =========================
-  // AXIOS / BACKEND
+  // HTTP / BACKEND
   // =========================
-
-  loginBackend(credentials: LoginRequest) {
-    return api.post('/auth/login', credentials);
+loginBackend(credential: LoginRequest) {
+    return this.http.post(
+      'http://localhost:3000/auth/login',
+      credential
+    );
   }
 
-  registerBackend(usuario: any) {
-    return api.post('/auth/register', usuario);
+  registerBackend(usuario: Usuario) {
+    return this.http.post(
+      'http://localhost:3000/auth/register',
+      usuario
+    );
   }
 
   getProfileBackend() {
-    return api.get('/auth/profile');
+    return this.http.get(
+      'http://localhost:3000/auth/profile'
+    );
   }
 
   logoutBackend() {
-    return api.post('/auth/logout');
+    return this.http.post(
+      'http://localhost:3000/auth/logout',
+      {}
+    );
   }
+
+ 
 
   // =========================
   // STORAGE LOCAL
@@ -218,3 +231,8 @@ export class AuthService {
     );
   }
 }
+
+
+
+
+

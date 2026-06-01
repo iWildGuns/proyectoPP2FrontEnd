@@ -1,30 +1,31 @@
 import { Injectable } from '@angular/core';
-import api from '../../lib/b';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrdenService {
 
-  constructor() {}
+  constructor(private http:HttpClient) {}
 
-  getPedidos() {
-    return api.get('/pedidos');
+getPedidos(): Observable<any> {
+    return this.http.get('http://localhost:3000/pedidos');
   }
 
-  getPedidoById(id: string) {
-    return api.get(`/pedidos/${id}`);
+  getPedidoById(id: string): Observable<any> {
+    return this.http.get('http://localhost:3000/pedidos/${id}');
   }
 
-  addPedido(pedido: any) {
-    return api.post('/pedidos', pedido);
+  addPedido(pedido: any): Observable<any> {
+    return this.http.post('http://localhost:3000/pedidos', pedido);
   }
 
   updatePedido(id: string, pedido: any) {
-    return api.put(`/pedidos/${id}`, pedido);
+    return this.http.put('http://localhost:3000/pedidos/' + id, pedido);
   }
 
-  deletePedido(id: string) {
-    return api.delete(`/pedidos/${id}`);
+  deletePedido(id: string): Observable<any> {
+    return this.http.delete('http://localhost:3000/pedidos/${id}');
   }
 }

@@ -1,61 +1,77 @@
 import { Injectable } from '@angular/core';
+
+import { HttpClient } from '@angular/common/http';
+
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Platillo } from '../models';
-import api from '../../lib/b';
+
+import { Plato } from '../models/platillo.model';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class PlatoService {
 
   private platosSubject =
-    new BehaviorSubject<Platillo[]>([]);
+    new BehaviorSubject<Plato[]>([]);
 
   public platos$ =
     this.platosSubject.asObservable();
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   // =========================
-  // AXIOS / BACKEND
+  // HTTP / BACKEND
   // =========================
 
   getPlatosBackend() {
-    return api.get('/platos');
+    return this.http.get<Plato[]>(
+      'http://localhost:3000/platos'
+    );
   }
 
   getPlatoByIdBackend(id: string) {
-    return api.get(`/platos/${id}`);
+    return this.http.get<Plato>(
+      'http://localhost:3000/platos/${id}'
+    );
   }
 
-  addPlatoBackend(plato: Platillo) {
-    return api.post('/platos', plato);
+  addPlatoBackend(plato: Plato) {
+    return this.http.post(
+      'http://localhost:3000/platos',
+      plato
+    );
   }
 
   updatePlatoBackend(
     id: string,
-    plato: Platillo
+    plato: Plato
   ) {
-    return api.put(`/platos/${id}`, plato);
+    return this.http.put(
+      'http://localhost:3000/platos/${id}',
+      plato
+    );
   }
 
   deletePlatoBackend(id: string) {
-    return api.delete(`/platos/${id}`);
+    return this.http.delete(
+      'http://localhost:3000/platos/${id}'
+    );
   }
 
   // =========================
   // ESTADO LOCAL
   // =========================
 
-  getPlatos(): Observable<Platillo[]> {
+  getPlatos(): Observable<Plato[]> {
     return this.platos$;
   }
 
-  setPlatos(platos: Platillo[]): void {
+  setPlatos(platos: Plato[]): void {
     this.platosSubject.next(platos);
   }
 
-  addPlato(plato: Platillo): void {
+  addPlato(plato: Plato): void {
 
     const platos =
       this.platosSubject.value;
@@ -66,7 +82,7 @@ export class PlatoService {
     ]);
   }
 
-  updatePlato(plato: Platillo): void {
+  updatePlato(plato: Plato): void {
 
     const platos =
       this.platosSubject.value.map(p =>

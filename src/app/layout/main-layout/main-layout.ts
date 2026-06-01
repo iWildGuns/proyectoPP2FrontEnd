@@ -2,14 +2,15 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Usuario } from '../../models';
+import { Usuario } from '../../models/usuario.model';
 import { SalonListComponent } from '../../components/salon-list/salon-list';
 import { MainPanelComponent } from '../../components/main-panel/main-panel';
 import { ConfigMenuComponent } from '../../components/config-menu/config-menu';
 
+
 @Component({
   selector: 'app-main-layout',
-  imports: [CommonModule, SalonListComponent, MainPanelComponent, ConfigMenuComponent],
+  imports: [CommonModule, SalonListComponent, ConfigMenuComponent],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.css',
 })

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { Mesa, EstadoMesa } from '../models';
-
-import api from '../../lib/b';
+import { Mesa, EstadoMesa } from '../models/mesa.model';
+import { Orden } from '../models/orden.model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -50,15 +50,15 @@ export class MesaService {
   public mesas$ =
     this.mesasSubject.asObservable();
 
-  constructor() {}
+  constructor(private http:HttpClient) {}
 
   // =========================
-  // BACKEND
+  // HTTP/BACKEND
   // =========================
 
   getMesasBackend() {
-
-    return api.get('/mesas');
+ 
+    return this.http.get ('http:localhost:3000/mesas');
 
   }
 

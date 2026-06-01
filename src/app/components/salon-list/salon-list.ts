@@ -1,77 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { SalonService } from '../../services/salon.service';
-
-import { Salon } from '../../models';
-
-import { Observable } from 'rxjs';
+import { PlatoService } from '../../services/plato.service';
+import { Plato } from '../../models/platillo.model';
 
 @Component({
   selector: 'app-salon-list',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './salon-list.html',
-  styleUrls: ['./salon-list.css'],
+  styleUrls: ['./salon-list.css']
 })
-
 export class SalonListComponent implements OnInit {
 
-  salones$: Observable<Salon[]>;
+  platos: Plato[] = [];
 
-  selectedSalon$: Observable<Salon | null>;
-
-  constructor(
-    private salonService: SalonService
-  ) {
-
-    this.salones$ =
-      this.salonService.getSalones();
-
-    this.selectedSalon$ =
-      this.salonService.getSelectedSalon();
-
-  }
+  constructor(private platoService: PlatoService) {}
 
   ngOnInit(): void {
-
-    this.salonService.getSalonesBackend()
-
-      .then((res) => {
-
-        console.log(
-          'SALONES BACKEND:',
-          res.data
-        );
-
-        this.salonService.setSalones(
-          res.data
-        );
-
-      })
-
-      .catch((error) => {
-
-        console.log(
-          'ERROR SALONES:',
-          error
-        );
-
-      });
-
-  }
-
-  selectSalon(salon: Salon): void {
-
-    this.salonService.selectSalon(
-      salon
-    );
-
-  }
-
-  isSelected(salon: Salon): boolean {
-
-    return false;
-
+    this.platoService.getPlatos().subscribe(data => {
+      this.platos = data;
+    });
   }
 }

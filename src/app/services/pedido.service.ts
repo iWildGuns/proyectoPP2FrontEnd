@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import API from '../../lib/b';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PedidoService {
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   getPedidos() {
-    return API.get('/pedidos');
+     return this.http.get ('http://localhost:3000/pedidos');
   }
 }

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-import { Usuario } from '../../models';
+import { Usuario } from '../../models/usuario.model';
 import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-config-menu',
+  standalone:true,
   imports: [CommonModule],
   templateUrl: './config-menu.html',
   styleUrl: './config-menu.css',

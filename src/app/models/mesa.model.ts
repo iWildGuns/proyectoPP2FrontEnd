@@ -1,5 +1,5 @@
 import { Consumo } from './consumo.model';
-import {Orden}  from '../models/orden.model';
+import {Orden}  from './orden.model';
 
 export enum EstadoMesa {
   DISPONIBLE = 'disponible',

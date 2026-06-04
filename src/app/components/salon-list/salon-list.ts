@@ -1,21 +1,71 @@
 import { Component, OnInit } from '@angular/core';
-import { PlatoService } from '../../services/plato.service';
-import { Plato } from '../../models/platillo.model';
+import { CommonModule } from '@angular/common';
+import { Observable } from 'rxjs';
+
+import { Salon } from '../../models/salon.model';
+import { SalonService } from '../../services/salon.service';
 
 @Component({
-  selector: 'app-salon-list',
-  templateUrl: './salon-list.html',
-  styleUrls: ['./salon-list.css']
+selector: 'app-salon-list',
+standalone: true,
+imports: [CommonModule],
+templateUrl: './salon-list.html',
+styleUrls: ['./salon-list.css']
 })
 export class SalonListComponent implements OnInit {
 
-  platos: Plato[] = [];
+salones$: Observable<Salon[]>;
+selectedSalon$: Observable<Salon | null>;
 
-  constructor(private platoService: PlatoService) {}
+constructor(
+private salonService: SalonService
+) {
 
-  ngOnInit(): void {
-    this.platoService.getPlatos().subscribe(data => {
-      this.platos = data;
-    });
-  }
+this.salones$ =
+  this.salonService.getSalones();
+
+this.selectedSalon$ =
+  this.salonService.getSelectedSalon();
+
+}
+
+ngOnInit(): void {
+
+this.salonService.getSalonesBackend()
+  .subscribe({
+
+    next: (res: any) => {
+
+      const salones =
+        res?.data ?? res;
+
+      this.salonService.setSalones(
+        salones
+      );
+
+    },
+
+    error: (error) => {
+
+      console.log(
+        'ERROR SALONES:',
+        error
+      );
+
+    }
+
+  });
+
+}
+
+selectSalon(
+salon: Salon
+): void {
+
+this.salonService.selectSalon(
+  salon
+);
+
+}
+
 }

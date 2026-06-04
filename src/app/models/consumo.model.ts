@@ -27,7 +27,7 @@ export enum EstadoPago {
 //   estado: EstadoOrden;
 // }
 
-export interface Orden {
+export interface OrdenConsumo {
   id: string;
   items: Plato[];
   total: number;
@@ -48,7 +48,7 @@ export interface Consumo {
   id: string;
   mesaId: string;
   salonId: string;
-  ordenes: Orden[];
+  ordenes: OrdenConsumo[];
   consumoTotal: number;
   duracion: number; // en minutos
   horaLlegada: Date;

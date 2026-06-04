@@ -1,40 +1,60 @@
 <div class="main-layout-container">
+
   <!-- Header -->
   <header class="app-header">
+
     <div class="header-left">
       <h1 class="app-title">RestoApp</h1>
-      <p class="app-subtitle">Sistema de Gestión de Restaurante</p>
+      <p class="app-subtitle">
+        Sistema de Gestión de Restaurante
+      </p>
     </div>
 
-    @let user = currentUser$ | async;
-    @if (user) {
-      <div class="header-right">
-        <div class="user-info">
-          <span class="user-name">{{ user.nombre }} {{ user.apellido }}</span>
-          <span class="user-role">{{ user.rol }}</span>
-        </div>
-        <button class="btn-logout" (click)="logout()" title="Cerrar sesión">
-          <span>Salir</span>
-        </button>
+    <div
+      class="header-right"
+      *ngIf="currentUser$ | async as user"
+    >
+
+      <div class="user-info">
+        <span class="user-name">
+          {{ user.nombre }} {{ user.apellido }}
+        </span>
+
+        <span class="user-role">
+          {{ user.rol }}
+        </span>
       </div>
-    }
+
+      <button
+        class="btn-logout"
+        (click)="logout()"
+        title="Cerrar sesión"
+      >
+        <span>Salir</span>
+      </button>
+
+    </div>
+
   </header>
 
   <!-- Main Content -->
   <div class="main-content">
-    <!-- Columna Izquierda: Lista de Salones -->
+
+    <!-- Columna Izquierda -->
     <aside class="sidebar-left">
       <app-salon-list></app-salon-list>
     </aside>
 
-    <!-- Columna Centro: Panel Principal -->
+    <!-- Centro -->
     <main class="content-center">
       <app-main-panel></app-main-panel>
     </main>
 
-    <!-- Columna Derecha: Configuración -->
+    <!-- Derecha -->
     <aside class="sidebar-right">
       <app-config-menu></app-config-menu>
     </aside>
+
   </div>
+
 </div>

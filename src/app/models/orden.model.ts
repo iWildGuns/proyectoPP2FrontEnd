@@ -1,6 +1,5 @@
 export interface Orden {
-    id:string;
-   item:string;
-   plato: string;
-    precio:number;
+  id: number;
+  fecha: string;
+  total: number;
 }

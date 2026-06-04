@@ -1,4 +1,4 @@
-import { Orden } from './consumo.model';
+import { OrdenConsumo } from './consumo.model';
 
 export enum CategoriaPlato {
   ENTRADA = 'entrada',
@@ -10,7 +10,7 @@ export enum CategoriaPlato {
 
 export interface Plato {
   id: string;
-  ordenId: Orden['id'];
+  ordenId: OrdenConsumo['id'];
   nombre: string;
   descripcion: string;
   categoria: CategoriaPlato;

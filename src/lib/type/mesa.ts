@@ -7,4 +7,4 @@ export interface Mesa {
   tiempo: number;
   ocupacion: number
 
-}
+} 

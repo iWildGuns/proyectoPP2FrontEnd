@@ -4,4 +4,3 @@ export * from './orden.service';
 export * from './plato.service';
 export * from './usuario.service';
 export * from './pedido.service';
-export * from './salon.service';

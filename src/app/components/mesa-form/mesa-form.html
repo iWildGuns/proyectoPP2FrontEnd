@@ -1,0 +1,60 @@
+<div class="form-container">
+  <div class="form-header">
+    <h3>Agregar Nueva Mesa</h3>
+    <button class="btn-close" (click)="cancelar()">
+      <i class="ti ti-x"></i>
+    </button>
+  </div>
+
+  <form [formGroup]="mesaForm" (ngSubmit)="onSubmit()" class="mesa-form">
+    <div class="form-group">
+      <label for="numero">Número de Mesa</label>
+      <input
+        id="numero"
+        type="number"
+        formControlName="numero"
+        placeholder="Ej: 12"
+        [class.is-invalid]="numero?.invalid && numero?.touched"
+      />
+      @if (numero?.invalid && numero?.touched) {
+        <small class="error-text">El número es obligatorio y debe ser mayor a 0.</small>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="capacidad">Capacidad (Personas)</label>
+      <input
+        id="capacidad"
+        type="number"
+        formControlName="capacidad"
+        placeholder="Ej: 4"
+        [class.is-invalid]="capacidad?.invalid && capacidad?.touched"
+      />
+      @if (capacidad?.invalid && capacidad?.touched) {
+        <small class="error-text">La capacidad es obligatoria y debe ser mayor a 0.</small>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="estado">Estado Inicial</label>
+      <select id="estado" formControlName="estado">
+        <option value="Disponible">Disponible</option>
+        <option value="Reservada">Reservada</option>
+        <option value="Mantenimiento">Mantenimiento</option>
+      </select>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-cancel" (click)="cancelar()" [disabled]="isSubmitting">
+        Cancelar
+      </button>
+      <button type="submit" class="btn-submit" [disabled]="mesaForm.invalid || isSubmitting">
+        @if (isSubmitting) {
+          Guardando...
+        } @else {
+          Crear Mesa
+        }
+      </button>
+    </div>
+  </form>
+</div>

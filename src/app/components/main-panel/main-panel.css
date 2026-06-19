@@ -449,3 +449,60 @@
   color: #999;
   font-style: italic;
 }
+
+/* Botón de agregar en el Header */
+.salon-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-add {
+  background-color: #6b46c1; /* Ajusta a tu color principal */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-add:hover {
+  background-color: #553c9a;
+}
+
+/* =======================================
+   ESTILOS DEL MODAL OVERLAY
+   ======================================= */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semitransparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Asegura que esté por encima de todo */
+  backdrop-filter: blur(2px); /* Efecto de desenfoque moderno */
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 450px;
+  /* Animación sencilla de aparición */
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

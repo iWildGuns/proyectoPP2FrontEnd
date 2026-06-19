@@ -7,16 +7,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Plato } from '../models/platillo.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class PlatoService {
+  private platosSubject = new BehaviorSubject<Plato[]>([]);
 
-  private platosSubject =
-    new BehaviorSubject<Plato[]>([]);
-
-  public platos$ =
-    this.platosSubject.asObservable();
+  public platos$ = this.platosSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -25,38 +21,23 @@ export class PlatoService {
   // =========================
 
   getPlatosBackend() {
-    return this.http.get<Plato[]>(
-      'http://localhost:3000/platos'
-    );
+    return this.http.get<Plato[]>('http://localhost:3000/platos');
   }
 
   getPlatoByIdBackend(id: string) {
-    return this.http.get<Plato>(
-      'http://localhost:3000/platos/${id}'
-    );
+    return this.http.get<Plato>('http://localhost:3000/platos/${id}');
   }
 
   addPlatoBackend(plato: Plato) {
-    return this.http.post(
-      'http://localhost:3000/platos',
-      plato
-    );
+    return this.http.post('http://localhost:3000/platos', plato);
   }
 
-  updatePlatoBackend(
-    id: string,
-    plato: Plato
-  ) {
-    return this.http.put(
-      'http://localhost:3000/platos/${id}',
-      plato
-    );
+  updatePlatoBackend(id: string, plato: Plato) {
+    return this.http.put('http://localhost:3000/platos/${id}', plato);
   }
 
   deletePlatoBackend(id: string) {
-    return this.http.delete(
-      'http://localhost:3000/platos/${id}'
-    );
+    return this.http.delete('http://localhost:3000/platos/${id}');
   }
 
   // =========================
@@ -72,32 +53,19 @@ export class PlatoService {
   }
 
   addPlato(plato: Plato): void {
+    const platos = this.platosSubject.value;
 
-    const platos =
-      this.platosSubject.value;
-
-    this.platosSubject.next([
-      ...platos,
-      plato
-    ]);
+    this.platosSubject.next([...platos, plato]);
   }
 
   updatePlato(plato: Plato): void {
-
-    const platos =
-      this.platosSubject.value.map(p =>
-        p.id === plato.id ? plato : p
-      );
+    const platos = this.platosSubject.value.map((p) => (p.id === plato.id ? plato : p));
 
     this.platosSubject.next(platos);
   }
 
   deletePlato(id: string): void {
-
-    const platos =
-      this.platosSubject.value.filter(
-        p => p.id !== id
-      );
+    const platos = this.platosSubject.value.filter((p) => p.id !== id);
 
     this.platosSubject.next(platos);
   }

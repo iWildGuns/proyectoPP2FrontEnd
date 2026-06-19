@@ -1,0 +1,142 @@
+.mesa-details-card {
+  max-width: 480px;
+}
+
+.btn-volver {
+  margin-bottom: 1rem;
+  padding: 6px 12px;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mesa-panel {
+  background: var(--color-background-primary, #fff);
+  border-radius: 12px;
+  border: 0.5px solid var(--color-border-tertiary, #e0e0e0);
+  padding: 1.25rem;
+}
+
+.mesa-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+
+  h2 {
+    margin: 0;
+    font-size: 20px;
+  }
+}
+
+.badge {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 8px;
+
+  &.badge-success {
+    background: #e1f5ee;
+    color: #085041;
+  }
+  &.badge-danger {
+    background: #fcebeb;
+    color: #791f1f;
+  }
+  &.badge-warning {
+    background: #faeeda;
+    color: #854f0b;
+  }
+  &.badge-default {
+    background: #f1efe8;
+    color: #444441;
+  }
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+.stat-card {
+  background: var(--color-background-secondary, #f7f7f5);
+  border-radius: 8px;
+  padding: 0.75rem;
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--color-text-secondary, #666);
+    margin: 0 0 4px;
+  }
+  .stat-value {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 0;
+    span {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--color-text-secondary, #666);
+    }
+  }
+}
+
+.info-table {
+  width: 100%;
+  font-size: 13px;
+  border-collapse: collapse;
+  border-top: 0.5px solid var(--color-border-tertiary, #e0e0e0);
+  padding-top: 12px;
+  margin-bottom: 1rem;
+
+  td {
+    padding: 6px 0;
+    color: var(--color-text-secondary, #666);
+  }
+  .info-value {
+    text-align: right;
+    color: var(--color-text-primary, #000);
+  }
+  i {
+    margin-right: 6px;
+  }
+}
+
+.pedidos-section {
+  .section-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-secondary, #666);
+    margin: 0 0 8px;
+  }
+}
+
+.pedidos-table {
+  width: 100%;
+  font-size: 13px;
+  border-collapse: collapse;
+  table-layout: fixed;
+
+  th {
+    text-align: left;
+    padding: 6px 4px;
+    font-weight: 500;
+    color: var(--color-text-secondary, #666);
+    border-bottom: 0.5px solid var(--color-border-tertiary, #e0e0e0);
+  }
+
+  td {
+    padding: 8px 4px;
+    border-bottom: 0.5px solid var(--color-border-tertiary, #e0e0e0);
+  }
+
+  .text-right {
+    text-align: right;
+  }
+  .empty {
+    color: var(--color-text-tertiary, #999);
+    text-align: center;
+  }
+}

@@ -1,6 +1,3 @@
-import { Consumo } from './consumo.model';
-import {Orden}  from './orden.model';
-
 export enum EstadoMesa {
   DISPONIBLE = 'disponible',
   OCUPADA = 'ocupada',
@@ -12,13 +9,11 @@ export interface Mesa {
   id: string;
   numero: number;
   capacidad: number;
-  salonId: string;
   estado: EstadoMesa;
   meseroAsignado?: string;
   consumoActual?: number; // total actual
   //consumo: number;
   clientesActuales?: number;
-  ordenes?: Orden[]; 
   horaOcupacion?: Date;
   duracionEstimada?: number; // en minutos
   fechaCreacion: Date;
@@ -28,7 +23,6 @@ export interface Mesa {
 export interface CrearMesaRequest {
   numero: number;
   capacidad: number;
-  salonId: string;
 }
 
 export interface ActualizarMesaRequest {

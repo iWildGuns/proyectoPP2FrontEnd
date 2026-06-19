@@ -1,137 +1,94 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-
-import { Salon } from '../../models/salon.model';
-import { Mesa, EstadoMesa } from '../../models/mesa.model';
-
+// import { EstadoMesa } from '../../models/mesa.model';
+import { MesaFormComponent } from '../mesa-form/mesa-form';
 import { MesaService } from '../../services/mesa.service';
-import { SalonService } from '../../services/salon.service';
+import { MesaDetails } from '../mesa-details/mesa-details';
+import { Mesa, mesaStatus } from '../../types';
 
 @Component({
-selector: 'app-main-panel',
-standalone: true,
-imports: [CommonModule],
-templateUrl: './main-panel.html',
-styleUrl: './main-panel.css',
+  selector: 'app-main-panel',
+  standalone: true,
+  imports: [CommonModule, MesaDetails, MesaFormComponent],
+  templateUrl: './main-panel.html',
+  styleUrl: './main-panel.css',
 })
 export class MainPanelComponent implements OnInit {
+  selectedMesa$: Observable<Mesa | null>;
+  mesas$: Observable<Mesa[]>;
+  showMesaForm: boolean = false;
 
-selectedMesa$: Observable<Mesa | null>;
-selectedSalon$: Observable<Salon | null>;
-mesasPorSalon$: Observable<Mesa[]>;
+  // EstadoMesa = EstadoMesa;
 
-EstadoMesa = EstadoMesa;
+  constructor(private mesaService: MesaService) {
+    this.selectedMesa$ = this.mesaService.getSelectedMesa();
 
-constructor(
-private mesaService: MesaService,
-private salonService: SalonService
-) {
+    this.mesas$ = this.mesaService.getMesas();
+  }
 
-this.selectedMesa$ =
-  this.mesaService.getSelectedMesa();
+  ngOnInit(): void {
+    this.mesaService.getMesas().subscribe({
+      next: (res: any) => {
+        console.log('MESAS BACKEND:', res);
+      },
+      error: (error) => {
+        console.log('ERROR BACKEND:', error);
+      },
+    });
+  }
 
-this.selectedSalon$ =
-  this.salonService.getSelectedSalon();
+  selectMesa(mesa: Mesa): void {
+    this.mesaService.selectMesa(mesa);
+    console.log(mesa);
+  }
 
-this.mesasPorSalon$ =
-  this.mesaService.getMesas();
+  // deselectMesa(): void {
+  //   this.mesaService.deselectMesa();
+  // }
 
-}
+  getTiempoOcupacion(mesa: Mesa): string {
+    return this.mesaService.getTiempoOcupacion(mesa);
+  }
 
-ngOnInit(): void {
+  getOcupacionPorcentaje(mesa: Mesa): number {
+    return this.mesaService.getOcupacionPorcentaje(mesa);
+  }
 
-this.mesaService.getMesasBackend()
-  .subscribe({
+  getEstadoColor(estado: mesaStatus): string {
+    switch (estado) {
+      case 'Ocupada':
+        return '#ff6b6b';
 
-    next: (res: any) => {
+      case 'Disponible':
+        return '#51cf66';
 
-      console.log(
-        'MESAS BACKEND:',
-        res
-      );
+      case 'Reservada':
+        return '#ffd43b';
 
-      const mesas =
-        res?.data ?? res;
+      case 'Mantenimiento':
+        return '#868e96';
 
-      this.mesaService.setMesas(
-        mesas
-      );
-
-    },
-
-    error: (error) => {
-
-      console.log(
-        'ERROR BACKEND:',
-        error
-      );
-
+      default:
+        return '#999';
     }
+  }
 
-  });
+  openMesaForm() {
+    this.showMesaForm = true;
+  }
+  closeMesaForm(): void {
+    this.showMesaForm = false;
+  }
 
-}
+  onMesaCreated(): void {
+    this.closeMesaForm(); // Cerramos el modal
+    this.refreshMesas(); // Recargamos la lista
+  }
 
-selectMesa(
-mesa: Mesa
-): void {
-
-this.mesaService.selectMesa(
-  mesa
-);
-
-}
-
-deselectMesa(): void {
-
-this.mesaService.deselectMesa();
-
-}
-
-getTiempoOcupacion(
-mesa: Mesa
-): string {
-
-return this.mesaService.getTiempoOcupacion(
-  mesa
-);
-
-}
-
-getOcupacionPorcentaje(
-mesa: Mesa
-): number {
-
-return this.mesaService.getOcupacionPorcentaje(
-  mesa
-);
-
-}
-
-getEstadoColor(
-estado: EstadoMesa
-): string {
-
-switch (estado) {
-
-  case EstadoMesa.OCUPADA:
-    return '#ff6b6b';
-
-  case EstadoMesa.DISPONIBLE:
-    return '#51cf66';
-
-  case EstadoMesa.RESERVADA:
-    return '#ffd43b';
-
-  case EstadoMesa.MANTENIMIENTO:
-    return '#868e96';
-
-  default:
-    return '#999';
-
-}
-
-}
-
+  refreshMesas(): void {
+    // Al reasignar el observable, el pipe 'async' en el HTML
+    // vuelve a disparar la petición GET al backend automáticamente.
+    this.mesas$ = this.mesaService.getMesas();
+  }
 }

@@ -3,13 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OrdenService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http:HttpClient) {}
-
-getPedidos(): Observable<any> {
+  getPedidos(): Observable<any> {
     return this.http.get('http://localhost:3000/pedidos');
   }
 

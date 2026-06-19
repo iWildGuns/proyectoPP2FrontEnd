@@ -94,18 +94,9 @@
   background-color: #e0e0e0;
 }
 
-/* Columna Izquierda - 25% */
-.sidebar-left {
-  width: 25%;
-  background-color: white;
-  border-right: 1px solid #ddd;
-  overflow-y: auto;
-  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
-}
-
 /* Columna Centro - 50% */
 .content-center {
-  width: 50%;
+  width: 75%;
   background-color: white;
   border-right: 1px solid #ddd;
   overflow-y: auto;
@@ -121,26 +112,22 @@
 }
 
 /* Scrollbar personalizada */
-.sidebar-left::-webkit-scrollbar,
 .content-center::-webkit-scrollbar,
 .sidebar-right::-webkit-scrollbar {
   width: 8px;
 }
 
-.sidebar-left::-webkit-scrollbar-track,
 .content-center::-webkit-scrollbar-track,
 .sidebar-right::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
 
-.sidebar-left::-webkit-scrollbar-thumb,
 .content-center::-webkit-scrollbar-thumb,
 .sidebar-right::-webkit-scrollbar-thumb {
   background: #888;
   border-radius: 4px;
 }
 
-.sidebar-left::-webkit-scrollbar-thumb:hover,
 .content-center::-webkit-scrollbar-thumb:hover,
 .sidebar-right::-webkit-scrollbar-thumb:hover {
   background: #555;

@@ -459,8 +459,8 @@
 }
 
 .btn-add,
-.btn-remove {
-  color: white;
+.btn-remove,
+.btn-cancel-remove {
   border: none;
   padding: 10px 20px;
   border-radius: 6px;
@@ -477,11 +477,19 @@
   background-color: #9a2020; /* Ajusta a tu color principal */
 }
 
+.btn-cancel-remove {
+  background-color: #ff5900; /* Ajusta a tu color principal */
+}
+
 .btn-add:hover {
   background-color: #553c9a;
 }
 .btn-remove:hover {
   background-color: #b81414; /* Ajusta a tu color principal */
+}
+
+.btn-cancel-remove:hover {
+  background-color: #ff3c00;
 }
 
 /* =======================================

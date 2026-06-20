@@ -61,7 +61,7 @@
 @if (showMesaForm) {
   <div class="modal-overlay" (click)="closeMesaForm()">
     <div class="modal-content" (click)="$event.stopPropagation()">
-      <app-mesa-form (formClosed)="closeMesaForm()" (mesaCreated)="onMesaCreated()">
+      <app-mesa-form (formClosed)="closeMesaForm()" (mesaCreated)="onMesaCreated($event)">
       </app-mesa-form>
     </div>
   </div>

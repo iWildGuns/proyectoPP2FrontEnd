@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { MesaFormComponent } from '../mesa-form/mesa-form';
 import { MesaService } from '../../services/mesa.service';
 import { MesaDetails } from '../mesa-details/mesa-details';
@@ -15,26 +15,18 @@ import { Mesa, mesaStatus } from '../../types';
 })
 export class MainPanelComponent implements OnInit {
   selectedMesa$: Observable<Mesa | null>;
-  mesas$: Observable<Mesa[]>;
+  mesaSubject$ = new BehaviorSubject<Mesa[]>([]);
+  mesas$: Observable<Mesa[]> = this.mesaSubject$.asObservable();
   showMesaForm: boolean = false;
   arrayMesas: Mesa['id'][] = [];
   isDeleteModeActive: boolean = false;
 
   constructor(private mesaService: MesaService) {
     this.selectedMesa$ = this.mesaService.getSelectedMesa();
-
-    this.mesas$ = this.mesaService.getMesas();
   }
 
   ngOnInit(): void {
-    this.mesaService.getMesas().subscribe({
-      next: (res: any) => {
-        console.log('MESAS BACKEND:', res);
-      },
-      error: (error) => {
-        console.log('ERROR BACKEND:', error);
-      },
-    });
+    this.refreshMesas();
   }
 
   selectMesa(mesa: Mesa): void {
@@ -76,13 +68,25 @@ export class MainPanelComponent implements OnInit {
     this.showMesaForm = false;
   }
 
-  onMesaCreated(): void {
+  onMesaCreated(data: Mesa): void {
     this.closeMesaForm();
-    this.refreshMesas();
+
+    const mesasActuales = this.mesaSubject$.getValue();
+
+    const nuevaMesaAdd = [...mesasActuales, data];
+
+    this.mesaSubject$.next(nuevaMesaAdd);
   }
 
   refreshMesas(): void {
-    this.mesas$ = this.mesaService.getMesas();
+    this.mesaService.getMesas().subscribe({
+      next: (data: Mesa[]) => {
+        this.mesaSubject$.next(data);
+      },
+      error: (error) => {
+        console.log('ERROR BACKEND:', error);
+      },
+    });
   }
 
   /** "Delete Many Mesas" ME ESA MATANDO EL SPANGLISH PROFESOR, AYUDAAAA */
@@ -111,15 +115,18 @@ export class MainPanelComponent implements OnInit {
   }
 
   eliminarMesas() {
+    if (this.arrayMesas.length === 0) return;
     this.mesaService.deleteMultiplesMesas(this.arrayMesas).subscribe({
       next: (data) => {
-        console.log(data);
+        const mesasActuales = this.mesaSubject$.getValue();
+        const mesasRefresh = mesasActuales.filter((mesa) => !this.arrayMesas.includes(mesa.id));
+        this.mesaSubject$.next(mesasRefresh);
         this.cancelRemove();
       },
       error: (error) => {
         console.log(error);
       },
     });
-    this.refreshMesas();
+    // this.refreshMesas();
   }
 }

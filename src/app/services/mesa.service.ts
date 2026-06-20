@@ -26,8 +26,8 @@ export class MesaService {
     return this.httpMesasService.get<Mesa>(`${this.API_URL}/mesas/${id}`);
   }
 
-  createMesa(mesaData: Partial<Mesa>): Observable<{ message: string }> {
-    return this.httpMesasService.post<{ message: string }>(`${this.API_URL}/mesas`, mesaData);
+  createMesa(mesaData: Partial<Mesa>): Observable<Mesa> {
+    return this.httpMesasService.post<Mesa>(`${this.API_URL}/mesas`, mesaData);
   }
 
   deleteMultiplesMesas(ids: Mesa['id'][]): Observable<{ message: string }> {

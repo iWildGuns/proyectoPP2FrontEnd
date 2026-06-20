@@ -2,6 +2,7 @@ import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MesaService } from '../../services/mesa.service';
+import { Mesa } from '../../types';
 
 @Component({
   selector: 'app-mesa-form',
@@ -12,7 +13,7 @@ import { MesaService } from '../../services/mesa.service';
 })
 export class MesaFormComponent {
   @Output() formClosed = new EventEmitter<void>();
-  @Output() mesaCreated = new EventEmitter<void>();
+  @Output() mesaCreated = new EventEmitter<Mesa>();
 
   private fb = inject(FormBuilder);
   private mesaService = inject(MesaService);
@@ -47,10 +48,9 @@ export class MesaFormComponent {
     const nuevaMesa = this.mesaForm.value;
 
     this.mesaService.createMesa(nuevaMesa).subscribe({
-      next: (res) => {
-        console.log('Mesa creada con éxito', res);
+      next: (data) => {
         this.isSubmitting = false;
-        this.mesaCreated.emit(); // Avisamos al padre que se creó
+        this.mesaCreated.emit(data); // Avisamos al padre que se creó
         this.mesaForm.reset({ estado: 'Disponible' }); // Limpiamos el form
       },
       error: (err) => {

@@ -31,7 +31,6 @@ export class MesaDetails implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['mesaId'] && this.mesaId) {
       this.mesa$ = this.mesaService.getMesaById(this.mesaId);
-      console.log('Thisss mesaaaaaa', this.mesa$);
     }
   }
 

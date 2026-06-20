@@ -14,9 +14,9 @@
         type="number"
         formControlName="numero"
         placeholder="Ej: 12"
-        [class.is-invalid]="numero?.invalid && numero?.touched"
+        [class.is-invalid]="numero?.invalid && numero!.touched"
       />
-      @if (numero?.invalid && numero?.touched) {
+      @if (numero?.invalid && numero!.touched) {
         <small class="error-text">El número es obligatorio y debe ser mayor a 0.</small>
       }
     </div>
@@ -28,9 +28,9 @@
         type="number"
         formControlName="capacidad"
         placeholder="Ej: 4"
-        [class.is-invalid]="capacidad?.invalid && capacidad?.touched"
+        [class.is-invalid]="capacidad?.invalid && capacidad!.touched"
       />
-      @if (capacidad?.invalid && capacidad?.touched) {
+      @if (capacidad?.invalid && capacidad!.touched) {
         <small class="error-text">La capacidad es obligatoria y debe ser mayor a 0.</small>
       }
     </div>

@@ -1,10 +1,12 @@
-<!-- mesa-details.component.html -->
 @if (mesa$ | async; as mesa) {
+  <div class="mesa-detail">
+    <div class="mesa-detail-header">
+      <button class="btn-volver" (click)="deselectMesa()">
+        <i class="ti ti-arrow-left"></i> Volver
+      </button>
+    </div>
+  </div>
   <div class="mesa-details-card">
-    <button class="btn-volver" (click)="deselectMesa()">
-      <i class="ti ti-arrow-left"></i> Volver
-    </button>
-
     <div class="mesa-panel">
       <div class="mesa-header">
         <h2>Mesa #{{ mesa.numero }}</h2>

@@ -1,47 +1,49 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Usuario } from '../models/usuario.model';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
+  private http = inject(HttpClient);
+  private API_URL = 'http://localhost:3000/usuarios';
 
-
-  private usuariosSubject =
-    new BehaviorSubject<Usuario[]>([]);
-
-  public usuarios$ =
-    this.usuariosSubject.asObservable();
-
-  constructor(private http:HttpClient) {}
+  private usuariosSubject = new BehaviorSubject<Usuario[]>([]);
+  public usuarios$ = this.usuariosSubject.asObservable();
 
   // =========================
   // HTTP / BACKEND
   // =========================
 
   getUsuariosBackend() {
-    return this.http.get ('http://localhost:3000/usuarios');
+    return this.http.get(`${this.API_URL}`);
   }
 
   getUsuarioByIdBackend(id: string) {
-    return this.http.get ('http://localhost:3000/usuarios/${id}');
+    return this.http.get(`${this.API_URL}/${id}`);
   }
 
   addUsuarioBackend(usuario: Usuario) {
-    return this.http.post ('http://localhost:3000/usuarios', usuario);
+    return this.http.post(`${this.API_URL}`, usuario, {
+      headers: { 'X-Toast-Message': 'Usuario añadido con éxito'}
+    });
   }
 
   updateUsuarioBackend(
     id: string,
     usuario: Usuario
   ) {
-    return this.http.put ('http://localhost:3000/usuarios/${id}', usuario);
+    return this.http.put(`${this.API_URL}/${id}`, usuario, {
+      headers: { 'X-Toast-Message': 'Usuario actualizado con éxito'}
+    });
   }
 
   deleteUsuarioBackend(id: string) {
-  return this.http.delete ('http://localhost:3000/usuarios/${id}');
+  return this.http.delete(`${this.API_URL}/${id}`, {
+      headers: { 'X-Toast-Message': 'Usuario eliminado con éxito'}
+    });
   }
 
   // =========================
@@ -57,9 +59,7 @@ export class UsuarioService {
   }
 
   addUsuario(usuario: Usuario): void {
-
-    const usuarios =
-      this.usuariosSubject.value;
+    const usuarios = this.usuariosSubject.value;
 
     this.usuariosSubject.next([
       ...usuarios,
@@ -68,7 +68,6 @@ export class UsuarioService {
   }
 
   updateUsuario(usuario: Usuario): void {
-
     const usuarios =
       this.usuariosSubject.value.map(u =>
         u.id === usuario.id ? usuario : u
@@ -78,12 +77,10 @@ export class UsuarioService {
   }
 
   deleteUsuario(id: string): void {
-
     const usuarios =
       this.usuariosSubject.value.filter(
         u => u.id !== id
       );
-
     this.usuariosSubject.next(usuarios);
   }
 }

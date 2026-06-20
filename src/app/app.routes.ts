@@ -1,8 +1,7 @@
 import { Routes } from '@angular/router';
+import { authGuard, noAuthGuard } from './guards/auth.guard';
 import { Login } from './layout/login/login';
 import { MainLayout } from './layout/main-layout/main-layout';
-import { authGuard, noAuthGuard } from './guards/auth.guard';
-import { MesaDetails } from './components/mesa-details/mesa-details';
 
 export const routes: Routes = [
   {

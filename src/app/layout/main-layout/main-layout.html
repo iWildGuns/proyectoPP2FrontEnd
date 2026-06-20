@@ -9,12 +9,8 @@
         Sistema de Gestión de Restaurante
       </p>
     </div>
-
-    <div
-      class="header-right"
-      *ngIf="currentUser$ | async as user"
-    >
-
+    @if (currentUser$ | async; as user) {
+    <div class="header-right">
       <div class="user-info">
         <span class="user-name">
           {{ user.nombre }} {{ user.apellido }}
@@ -25,15 +21,11 @@
         </span>
       </div>
 
-      <button
-        class="btn-logout"
-        (click)="logout()"
-        title="Cerrar sesión"
-      >
+      <button class="btn-logout" (click)="logout()" title="Cerrar sesión">
         <span>Salir</span>
       </button>
-
     </div>
+    }
 
   </header>
 

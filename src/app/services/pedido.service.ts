@@ -1,18 +1,17 @@
-import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { Pedido } from '../types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PedidoService {
-  private API_URL = `http://localhost:1500/api`;
-  private httpPedidosServices = inject(HttpClient);
+  private http = inject(HttpClient);
+  private API_URL = 'http://localhost:1500/api';
+  
   public pedidos: Pedido[] = [];
 
-  constructor() {}
-
   getPedidos() {
-    return this.httpPedidosServices.get(`${this.API_URL}/pedidos`);
+    return this.http.get(`${this.API_URL}/pedidos`);
   }
 }

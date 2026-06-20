@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 // import { EstadoMesa } from '../../models/mesa.model';
-import { MesaFormComponent } from '../mesa-form/mesa-form';
 import { MesaService } from '../../services/mesa.service';
-import { MesaDetails } from '../mesa-details/mesa-details';
 import { Mesa, mesaStatus } from '../../types';
+import { MesaDetails } from '../mesa-details/mesa-details';
+import { MesaFormComponent } from '../mesa-form/mesa-form';
 
 @Component({
   selector: 'app-main-panel',

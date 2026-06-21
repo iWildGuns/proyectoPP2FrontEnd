@@ -3,20 +3,38 @@
   margin-top: 30px;
 }
 
-.btn-volver {
-  /* margin-bottom: 1rem;
-  padding: 6px 12px;
-  font-size: 13px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px; */
-  background-color: #6b46c1; /* Ajusta a tu color principal */
+.option-buttoms {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.btn-volver,
+.btn-edit,
+.btn-add-pedido {
+  width: 130px;
   border: none;
-  padding: 10px 20px;
+  padding: 10px 10px;
   border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.2s;
+}
+
+.btn-add-pedido {
+  background-color: #219bb3;
+}
+
+.btn-volver {
+  background-color: #6b46c1;
+}
+
+.btn-edit {
+  background-color: #ff5900;
+}
+
+.btn-edit:hover {
+  background-color: #ff3c00;
 }
 
 .mesa-detail {

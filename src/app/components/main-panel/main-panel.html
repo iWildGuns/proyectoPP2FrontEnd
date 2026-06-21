@@ -7,11 +7,11 @@
         <h2>Mesas</h2>
         <div class="option-buttoms">
           @if (isDeleteModeActive) {
-            <button class="btn-cancel-remove" (click)="cancelRemove()">- Cancelar</button>
-            <button class="btn-remove" (click)="eliminarMesas()">- Eliminar Mesa</button>
+            <button class="btn-cancel-remove" (click)="cancelRemove()">Cancelar</button>
+            <button class="btn-remove" (click)="eliminarMesas()">Eliminar Mesa</button>
           } @else {
-            <button class="btn-add" (click)="openMesaForm()">+ Agregar Mesa</button>
-            <button class="btn-remove" (click)="activeDeleteMode()">- Eliminar Mesa</button>
+            <button class="btn-add" (click)="openMesaForm()">Agregar Mesa</button>
+            <button class="btn-remove" (click)="activeDeleteMode()">Eliminar Mesa</button>
           }
         </div>
       </div>

@@ -34,6 +34,10 @@ export class MesaDetails implements OnChanges {
     }
   }
 
+  editMesaForm() {
+    console.log('Editando la mesa');
+  }
+
   deselectMesa(): void {
     this.mesaService.deselectMesa();
   }
@@ -72,5 +76,9 @@ export class MesaDetails implements OnChanges {
       Reservada: 'badge-warning',
     };
     return map[estado] ?? 'badge-default';
+  }
+
+  agregarPedido() {
+    console.log(`agregando pedido...`);
   }
 }

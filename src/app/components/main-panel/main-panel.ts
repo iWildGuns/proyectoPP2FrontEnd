@@ -17,8 +17,8 @@ export class MainPanelComponent implements OnInit {
   selectedMesa$: Observable<Mesa | null>;
   mesaSubject$ = new BehaviorSubject<Mesa[]>([]);
   mesas$: Observable<Mesa[]> = this.mesaSubject$.asObservable();
-  showMesaForm: boolean = false;
   arrayMesas: Mesa['id'][] = [];
+  showMesaForm: boolean = false;
   isDeleteModeActive: boolean = false;
 
   constructor(private mesaService: MesaService) {
@@ -30,8 +30,9 @@ export class MainPanelComponent implements OnInit {
   }
 
   selectMesa(mesa: Mesa): void {
+    if (this.isDeleteModeActive) return;
     this.mesaService.selectMesa(mesa);
-    console.log(mesa);
+    // this.activeDeleteMode();
   }
 
   getTiempoOcupacion(mesa: Mesa): string {
@@ -69,13 +70,11 @@ export class MainPanelComponent implements OnInit {
   }
 
   onMesaCreated(data: Mesa): void {
-    this.closeMesaForm();
-
     const mesasActuales = this.mesaSubject$.getValue();
-
     const nuevaMesaAdd = [...mesasActuales, data];
 
     this.mesaSubject$.next(nuevaMesaAdd);
+    this.closeMesaForm();
   }
 
   refreshMesas(): void {

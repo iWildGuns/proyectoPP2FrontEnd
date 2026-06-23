@@ -1,40 +1,47 @@
-import { inject, Inject, Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-
 import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Mesa } from '../types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MesaService {
-  private API_URL = `http://localhost:1500/api`;
-  private httpMesasService = inject(HttpClient);
+  private http = inject(HttpClient);
+  private API_URL = 'http://localhost:1500/api';
+
   private selectedMesaSubject = new BehaviorSubject<Mesa | null>(null);
   public selectedMesa$ = this.selectedMesaSubject.asObservable();
+
   public mesas: Mesa[] = [];
 
   setMesas(id: Mesa['id'], data: {}): void {
-    this.httpMesasService.put(`${this.API_URL}/mesas/${id}`, data);
+    this.http.put(`${this.API_URL}/mesas/${id}`, data);
   }
 
   getMesas(): Observable<Mesa[]> {
-    return this.httpMesasService.get<Mesa[]>(`${this.API_URL}/mesas`);
+    return this.http.get<Mesa[]>(`${this.API_URL}/mesas`);
   }
 
   getMesaById(id: Mesa['id']): Observable<Mesa> {
-    return this.httpMesasService.get<Mesa>(`${this.API_URL}/mesas/${id}`);
+    return this.http.get<Mesa>(`${this.API_URL}/mesas/${id}`);
   }
 
   createMesa(mesaData: Partial<Mesa>): Observable<Mesa> {
-    return this.httpMesasService.post<Mesa>(`${this.API_URL}/mesas`, mesaData);
+    return this.http.post<Mesa>(`${this.API_URL}/mesas`, mesaData, {
+      headers: { 'X-Toast-Message': 'Mesa creada con éxito' },
+    });
   }
 
   deleteMultiplesMesas(ids: Mesa['id'][]): Observable<{ message: string }> {
     console.log(typeof ids);
-    return this.httpMesasService.post<{ message: string }>(`${this.API_URL}/mesas/deletemany`, {
-      ids,
-    });
+    return this.http.post<{ message: string }>(
+      `${this.API_URL}/mesas/deletemany`,
+      {
+        ids,
+      },
+      { headers: { 'X-Toast-Message': 'Mesas eliminadas con éxito' } },
+    );
   }
 
   getSelectedMesa(): Observable<Mesa | null> {

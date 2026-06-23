@@ -1,43 +1,46 @@
-import { Injectable } from '@angular/core';
-
 import { HttpClient } from '@angular/common/http';
-
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-
 import { Plato } from '../models/platillo.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PlatoService {
+  private http = inject(HttpClient);
+  private API_URL = 'http://localhost:3000/platos';
+  
   private platosSubject = new BehaviorSubject<Plato[]>([]);
-
   public platos$ = this.platosSubject.asObservable();
-
-  constructor(private http: HttpClient) {}
 
   // =========================
   // HTTP / BACKEND
   // =========================
 
   getPlatosBackend() {
-    return this.http.get<Plato[]>('http://localhost:3000/platos');
+    return this.http.get<Plato[]>(`${this.API_URL}`);
   }
 
   getPlatoByIdBackend(id: string) {
-    return this.http.get<Plato>('http://localhost:3000/platos/${id}');
+    return this.http.get<Plato>(`${this.API_URL}/${id}`);
   }
 
   addPlatoBackend(plato: Plato) {
-    return this.http.post('http://localhost:3000/platos', plato);
+    return this.http.post(`${this.API_URL}`, plato, {
+      headers: { 'X-Toast-Message': 'Plato añadido con éxito'}
+    });
   }
 
   updatePlatoBackend(id: string, plato: Plato) {
-    return this.http.put('http://localhost:3000/platos/${id}', plato);
+    return this.http.put(`${this.API_URL}/${id}`, plato, {
+      headers: { 'X-Toast-Message': 'Plato actualizado con éxito'}
+    });
   }
 
   deletePlatoBackend(id: string) {
-    return this.http.delete('http://localhost:3000/platos/${id}');
+    return this.http.delete(`${this.API_URL}/${id}`, {
+      headers: { 'X-Toast-Message': 'Plato eliminado con éxito'}
+    });
   }
 
   // =========================

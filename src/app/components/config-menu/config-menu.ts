@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../services/auth.service';
-import { Usuario } from '../../models/usuario.model';
+import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Usuario } from '../../models/usuario.model';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-config-menu',

@@ -20,7 +20,7 @@
         <div class="mesas-interactive-grid">
           <ng-container *ngIf="mesas$ | async as mesas">
             @for (mesa of mesas; track mesa.id) {
-              <ng-container> </ng-container>
+              <!-- <ng-container> </ng-container> -->
               <div
                 class="mesa-card"
                 [style.border-color]="getEstadoColor(mesa.estado)"

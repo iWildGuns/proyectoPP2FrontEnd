@@ -1,19 +1,17 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-
-import { Usuario, LoginRequest, RolUsuario } from '../models/usuario.model';
+import { LoginRequest, RolUsuario, Usuario } from '../models/usuario.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private http = inject(HttpClient);
+  private API_URL = 'http://localhost:3000/auth';
 
-  private usuarioActualSubject =
-    new BehaviorSubject<Usuario | null>(null);
-
-  public usuarioActual$ =
-    this.usuarioActualSubject.asObservable();
+  private usuarioActualSubject = new BehaviorSubject<Usuario | null>(null);
+  public usuarioActual$ = this.usuarioActualSubject.asObservable();
 
   // Usuarios de prueba registrados en el sistema
   private usuariosRegistrados: {
@@ -53,42 +51,30 @@ export class AuthService {
     },
   };
 
- constructor(private http: HttpClient) {
+ constructor() {
     this.cargarUsuarioDelStorage();
   }
 
   // =========================
   // HTTP / BACKEND
   // =========================
-loginBackend(credential: LoginRequest) {
-    return this.http.post(
-      'http://localhost:3000/auth/login',
-      credential
-    );
+  loginBackend(credential: LoginRequest) {
+    return this.http.post(`${this.API_URL}/login`, credential);
   }
 
   registerBackend(usuario: Usuario) {
-    return this.http.post(
-      'http://localhost:3000/auth/register',
-      usuario
-    );
+    return this.http.post(`${this.API_URL}/register`, usuario);
   }
 
   getProfileBackend() {
-    return this.http.get(
-      'http://localhost:3000/auth/profile'
-    );
+    return this.http.get(`${this.API_URL}/profile`);
   }
 
   logoutBackend() {
-    return this.http.post(
-      'http://localhost:3000/auth/logout',
-      {}
-    );
+    return this.http.post(`${this.API_URL}/logout`, {});
   }
 
  
-
   // =========================
   // STORAGE LOCAL
   // =========================
@@ -98,26 +84,14 @@ loginBackend(credential: LoginRequest) {
    * en localStorage
    */
   private cargarUsuarioDelStorage(): void {
-
-    const usuarioGuardado =
-      localStorage.getItem('usuarioActual');
+    const usuarioGuardado = localStorage.getItem('usuarioActual');
 
     if (usuarioGuardado) {
-
       try {
-
-        const usuario =
-          JSON.parse(usuarioGuardado);
-
+        const usuario = JSON.parse(usuarioGuardado);
         this.usuarioActualSubject.next(usuario);
-
       } catch (error) {
-
-        console.error(
-          'Error al cargar usuario del storage:',
-          error
-        );
-
+        console.error('Error al cargar usuario del storage:', error);
         localStorage.removeItem('usuarioActual');
       }
     }
@@ -131,17 +105,12 @@ loginBackend(credential: LoginRequest) {
     return new Observable((observer) => {
 
       setTimeout(() => {
-
-        const usuarioData =
-          this.usuariosRegistrados[
-            credentials.email
-          ];
+        const usuarioData = this.usuariosRegistrados[credentials.email];
 
         if (
           usuarioData &&
           usuarioData.password === credentials.password
         ) {
-
           this.usuarioActualSubject.next(
             usuarioData.usuario
           );
@@ -155,16 +124,11 @@ loginBackend(credential: LoginRequest) {
             'token',
             `token_${Date.now()}`
           );
-
           observer.next(true);
-
         } else {
-
           observer.next(false);
         }
-
         observer.complete();
-
       }, 800);
     });
   }
@@ -172,18 +136,14 @@ loginBackend(credential: LoginRequest) {
   /**
    * Usuario actual observable
    */
-  getUsuarioActual():
-    Observable<Usuario | null> {
-
+  getUsuarioActual(): Observable<Usuario | null> {
     return this.usuarioActual$;
   }
 
   /**
    * Usuario actual síncrono
    */
-  getCurrentUser():
-    Usuario | null {
-
+  getCurrentUser(): Usuario | null {
     return this.usuarioActualSubject.value;
   }
 
@@ -191,48 +151,29 @@ loginBackend(credential: LoginRequest) {
    * Verificar login
    */
   isLoggedIn(): boolean {
+    return this.usuarioActualSubject.value !== null;
+  }
 
-    return (
-      this.usuarioActualSubject.value !== null
-    );
+  /**
+   * Verificar admin
+  */
+  isAdmin(): boolean {
+   return this.usuarioActualSubject.value?.rol === RolUsuario.ADMIN;
+  }
+  
+  /**
+   * Verificar gerente
+  */
+  isGerente(): boolean {
+   return this.usuarioActualSubject.value?.rol === RolUsuario.GERENTE;
   }
 
   /**
    * Logout
    */
   logout(): void {
-
     this.usuarioActualSubject.next(null);
-
     localStorage.removeItem('usuarioActual');
-
     localStorage.removeItem('token');
   }
-
-  /**
-   * Verificar admin
-   */
-  isAdmin(): boolean {
-
-    return (
-      this.usuarioActualSubject.value?.rol ===
-      RolUsuario.ADMIN
-    );
-  }
-
-  /**
-   * Verificar gerente
-   */
-  isGerente(): boolean {
-
-    return (
-      this.usuarioActualSubject.value?.rol ===
-      RolUsuario.GERENTE
-    );
-  }
 }
-
-
-
-
-

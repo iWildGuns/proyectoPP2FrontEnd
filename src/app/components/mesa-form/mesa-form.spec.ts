@@ -1,17 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { MesaForm } from './mesa-form';
+import { MesaFormComponent } from './mesa-form';
 
 describe('MesaForm', () => {
-  let component: MesaForm;
-  let fixture: ComponentFixture<MesaForm>;
+  let component: MesaFormComponent;
+  let fixture: ComponentFixture<MesaFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MesaForm],
+      imports: [MesaFormComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MesaForm);
+    fixture = TestBed.createComponent(MesaFormComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

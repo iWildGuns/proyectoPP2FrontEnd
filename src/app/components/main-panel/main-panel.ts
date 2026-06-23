@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { MesaFormComponent } from '../mesa-form/mesa-form';
 import { MesaService } from '../../services/mesa.service';
-import { MesaDetails } from '../mesa-details/mesa-details';
 import { Mesa, mesaStatus } from '../../types';
+import { MesaDetails } from '../mesa-details/mesa-details';
+import { MesaFormComponent } from '../mesa-form/mesa-form';
 
 @Component({
   selector: 'app-main-panel',
@@ -126,6 +126,5 @@ export class MainPanelComponent implements OnInit {
         console.log(error);
       },
     });
-    // this.refreshMesas();
   }
 }

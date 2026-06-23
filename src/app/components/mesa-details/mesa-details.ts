@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { MesaService } from '../../services';
 import { Observable } from 'rxjs';
+import { MesaService } from '../../services';
 import { Mesa } from '../../types';
 
 @Component({

@@ -1,68 +1,56 @@
 <div class="main-panel-container">
   @if (selectedMesa$ | async; as selectedMesa) {
-    <app-mesa-details [mesaId]="selectedMesa.id"></app-mesa-details>
+  <app-mesa-details [mesaId]="selectedMesa.id"></app-mesa-details>
   } @else {
-    <div class="salon-detail">
-      <div class="salon-header">
-        <h2>Mesas</h2>
-        <div class="option-buttoms">
-          @if (isDeleteModeActive) {
-            <button class="btn-cancel-remove" (click)="cancelRemove()">Cancelar</button>
-            <button class="btn-remove" (click)="eliminarMesas()">Eliminar Mesa</button>
-          } @else {
-            <button class="btn-add" (click)="openMesaForm()">Agregar Mesa</button>
-            <button class="btn-remove" (click)="activeDeleteMode()">Eliminar Mesa</button>
-          }
-        </div>
-      </div>
-
-      <div class="mesas-section">
-        <div class="mesas-interactive-grid">
-          <ng-container *ngIf="mesas$ | async as mesas">
-            @for (mesa of mesas; track mesa.id) {
-              <!-- <ng-container> </ng-container> -->
-              <div
-                class="mesa-card"
-                [style.border-color]="getEstadoColor(mesa.estado)"
-                (click)="selectMesa(mesa)"
-              >
-                <div
-                  class="checkbox-container"
-                  *ngIf="isDeleteModeActive"
-                  (click)="$event.stopPropagation()"
-                >
-                  <input
-                    type="checkbox"
-                    class="delete-checkbox"
-                    [checked]="arrayMesas!.includes(mesa.id)"
-                    (change)="toggleMesaSeleccion(mesa.id, $event)"
-                  />
-                </div>
-
-                <div class="mesa-number">{{ mesa.numero }}</div>
-                <div class="mesa-estado" [style.background-color]="getEstadoColor(mesa.estado)">
-                  {{ mesa.estado.charAt(0).toUpperCase() }}
-                </div>
-                <div class="mesa-capacidad">{{ mesa.capacidad }} pers</div>
-                <div *ngIf="mesa.estado === 'Ocupada'" class="mesa-ocupacion">
-                  {{ mesa.clientesActuales }}/{{ mesa.capacidad }}
-                </div>
-                <div *ngIf="mesa.estado === 'Ocupada'" class="mesa-tiempo">
-                  {{ getTiempoOcupacion(mesa) }}
-                </div>
-              </div>
-            }
-          </ng-container>
-        </div>
+  <div class="salon-detail">
+    <div class="salon-header">
+      <h2>Mesas</h2>
+      <div class="option-buttoms">
+        @if (isDeleteModeActive) {
+        <button class="btn-cancel-remove" (click)="cancelRemove()">Cancelar</button>
+        <button class="btn-remove" (click)="eliminarMesas()">Eliminar Mesa</button>
+        } @else {
+        <button class="btn-add" (click)="openMesaForm()">Agregar Mesa</button>
+        <button class="btn-remove" (click)="activeDeleteMode()">Eliminar Mesa</button>
+        }
       </div>
     </div>
+
+    <div class="mesas-section">
+      <div class="mesas-interactive-grid">
+        <ng-container *ngIf="mesas$ | async as mesas">
+          @for (mesa of mesas; track mesa.id) {
+          <!-- <ng-container> </ng-container> -->
+          <div class="mesa-card" [style.border-color]="getEstadoColor(mesa.estado)" (click)="selectMesa(mesa)">
+            <div class="checkbox-container" *ngIf="isDeleteModeActive" (click)="$event.stopPropagation()">
+              <input type="checkbox" class="delete-checkbox" [checked]="arrayMesas!.includes(mesa.id)"
+                (change)="toggleMesaSeleccion(mesa.id, $event)" />
+            </div>
+
+            <div class="mesa-number">{{ mesa.numero }}</div>
+            <div class="mesa-estado" [style.background-color]="getEstadoColor(mesa.estado)">
+              {{ mesa.estado.charAt(0).toUpperCase() }}
+            </div>
+            <div class="mesa-capacidad">{{ mesa.capacidad }} pers</div>
+            <div *ngIf="mesa.estado === 'Ocupada'" class="mesa-ocupacion">
+              {{ mesa.clientesActuales }}/{{ mesa.capacidad }}
+            </div>
+            <div *ngIf="mesa.estado === 'Ocupada'" class="mesa-tiempo">
+              {{ getTiempoOcupacion(mesa) }}
+            </div>
+          </div>
+          }
+        </ng-container>
+      </div>
+    </div>
+  </div>
   }
 </div>
 @if (showMesaForm) {
-  <div class="modal-overlay" (click)="closeMesaForm()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-      <app-mesa-form (formClosed)="closeMesaForm()" (mesaCreated)="onMesaCreated($event)">
-      </app-mesa-form>
-    </div>
+<div class="modal-overlay" (click)="closeMesaForm()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <app-mesa-form (formClosed)="closeMesaForm()" (mesaCreated)="onMesaCreated($event)">
+    </app-mesa-form>
   </div>
+</div>
 }

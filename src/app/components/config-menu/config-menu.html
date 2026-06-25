@@ -1,29 +1,29 @@
 <div class="config-menu-container">
   <!-- Sección de Usuario -->
   @if (usuarioActual$ | async; as usuario) {
-    <div class="user-section">
-      <div class="user-header">
-        <div class="user-avatar">{{ usuario?.nombre!.charAt(0) || 'U' }}</div>
-        <div class="user-info">
-          <p class="user-name">{{ usuario?.nombre }} {{ usuario?.apellido }}</p>
-          <p class="user-role">{{ usuario?.rol }}</p>
-        </div>
+  <div class="user-section">
+    <div class="user-header">
+      <div class="user-avatar">{{ usuario?.nombre!.charAt(0) || 'U' }}</div>
+      <div class="user-info">
+        <p class="user-name">{{ usuario?.nombre }} {{ usuario?.apellido }}</p>
+        <p class="user-role">{{ usuario?.rol }}</p>
       </div>
-
-      <!-- Correo -->
-      <div class="user-detail">
-        <span class="detail-label">Email</span>
-        <span class="detail-value">{{ usuario?.email }}</span>
-      </div>
-
-      <!-- Teléfono -->
-      @if (usuario.telefono) {
-        <div class="user-detail">
-          <span class="detail-label">Teléfono</span>
-          <span class="detail-value">{{ usuario.telefono }}</span>
-        </div>
-      }
     </div>
+
+    <!-- Correo -->
+    <div class="user-detail">
+      <span class="detail-label">Email</span>
+      <span class="detail-value">{{ usuario?.email }}</span>
+    </div>
+
+    <!-- Teléfono -->
+    @if (usuario.telefono) {
+    <div class="user-detail">
+      <span class="detail-label">Teléfono</span>
+      <span class="detail-value">{{ usuario.telefono }}</span>
+    </div>
+    }
+  </div>
   }
 
   <!-- Divider -->
@@ -38,16 +38,20 @@
         <span class="option-text">Configuración</span>
       </li>
       <li class="option-item">
-        <span class="option-icon">📊</span>
-        <span class="option-text">Reportes</span>
+        <span class="option-icon">📋</span>
+        <a routerLink="dashboard">
+          <span class="option-text">Mesas</span>
+        </a>
       </li>
       <li class="option-item">
-        <span class="option-icon">👥</span>
-        <span class="option-text">Usuarios</span>
+        <span class="option-icon">🍽️</span>
+        <a routerLink="menu-platos">
+          <span class="option-text">Platos</span>
+        </a>
       </li>
       <li class="option-item">
         <span class="option-icon">📋</span>
-        <span class="option-text">Auditoría</span>
+        <span class="option-text">Pedidos</span>
       </li>
       <li class="option-item">
         <span class="option-icon">❓</span>

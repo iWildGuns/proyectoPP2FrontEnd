@@ -60,7 +60,7 @@ export class MesaFormComponent {
     });
   }
 
-  cancelar(): void {
+  onCancel(): void {
     this.formClosed.emit();
   }
 }

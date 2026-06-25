@@ -16,6 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([notificationInterceptor])),
     provideToastr({
       timeOut: 3000,
+      positionClass: 'toast-top-center',
       preventDuplicates: true,
     }),
   ]

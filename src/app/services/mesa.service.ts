@@ -8,7 +8,7 @@ import { Mesa } from '../types';
 })
 export class MesaService {
   private http = inject(HttpClient);
-  private API_URL = 'http://localhost:1500/api';
+  private API_URL = 'http://localhost:1500/api/mesas';
 
   private selectedMesaSubject = new BehaviorSubject<Mesa | null>(null);
   public selectedMesa$ = this.selectedMesaSubject.asObservable();
@@ -16,19 +16,19 @@ export class MesaService {
   public mesas: Mesa[] = [];
 
   setMesas(id: Mesa['id'], data: {}): void {
-    this.http.put(`${this.API_URL}/mesas/${id}`, data);
+    this.http.put(`${this.API_URL}/${id}`, data);
   }
 
   getMesas(): Observable<Mesa[]> {
-    return this.http.get<Mesa[]>(`${this.API_URL}/mesas`);
+    return this.http.get<Mesa[]>(`${this.API_URL}`);
   }
 
   getMesaById(id: Mesa['id']): Observable<Mesa> {
-    return this.http.get<Mesa>(`${this.API_URL}/mesas/${id}`);
+    return this.http.get<Mesa>(`${this.API_URL}/${id}`);
   }
 
   createMesa(mesaData: Partial<Mesa>): Observable<Mesa> {
-    return this.http.post<Mesa>(`${this.API_URL}/mesas`, mesaData, {
+    return this.http.post<Mesa>(`${this.API_URL}`, mesaData, {
       headers: { 'X-Toast-Message': 'Mesa creada con éxito' },
     });
   }
@@ -36,7 +36,7 @@ export class MesaService {
   deleteMultiplesMesas(ids: Mesa['id'][]): Observable<{ message: string }> {
     console.log(typeof ids);
     return this.http.post<{ message: string }>(
-      `${this.API_URL}/mesas/deletemany`,
+      `${this.API_URL}/deletemany`,
       {
         ids,
       },

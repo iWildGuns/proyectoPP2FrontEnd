@@ -3,11 +3,15 @@ import { z } from 'zod';
 /** Plato schema */
 
 export const platoSchema = z.object({
-  id: z.string(),
-  codigo: z.string(),
-  nombre: z.string(),
-  descripcion: z.string(),
-  precio: z.string(),
+  id: z.string().optional(),
+  codigo: z.string().min(1, "El codigo es obligatorio."),
+  nombre: z.string().min(3,"El nombre debe tener al menos 3 caracteres."),
+  descripcion: z.string().optional(),
+  precio: z.coerce.number()
+  .positive({ message: "El precio debe ser mayor a 0." })
+  .multipleOf(0.01, { message: "El precio debe tener un maximo de 2 decimales." }),
+  sinGluten: z.boolean(),
+  disponible: z.boolean()
 });
 
 export type Plato = z.infer<typeof platoSchema>;

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { MesaService } from '../../services/mesa.service';
 import { Mesa, mesaStatus } from '../../types';
 import { MesaDetails } from '../mesa-details/mesa-details';

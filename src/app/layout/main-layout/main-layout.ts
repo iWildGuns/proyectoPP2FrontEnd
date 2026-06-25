@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ConfigMenuComponent } from '../../components/config-menu/config-menu';
 import { MainPanelComponent } from '../../components/main-panel/main-panel';
 import { AuthService } from '../../services/auth.service';
@@ -8,7 +8,7 @@ import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [CommonModule, MainPanelComponent, ConfigMenuComponent],
+  imports: [CommonModule, ConfigMenuComponent, RouterOutlet],
   templateUrl: './main-layout.html',
   styleUrl: './main-layout.css',
 })

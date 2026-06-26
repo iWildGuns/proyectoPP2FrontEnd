@@ -12,11 +12,14 @@ import { Plato } from '../../types';
 })
 export class PlatoListComponent {
   platos = signal<Plato[]>([]);
-  dialog = viewChild<ElementRef<HTMLDialogElement>>('menuDialog');
+  menuDialog = viewChild<ElementRef<HTMLDialogElement>>('menuDialog');
+  confirmDialog = viewChild<ElementRef<HTMLDialogElement>>('confirmDialog');
   form: FormGroup;
-  isEditing = false;
+  isEditing: boolean = false;
+  isDeleting = signal(false);
   hoveredIndex: number | null = null;
-  sinGlutenLogo: string = 'sin_gluten_legal-01.png';
+  platoParaEliminar: Plato | null = null;
+  sinGlutenLogo: string = 'gluten-free-64.png';
 
   constructor(
     private fb: FormBuilder,
@@ -64,7 +67,7 @@ export class PlatoListComponent {
         sinGluten: false,
         disponible: true,
       });
-    this.dialog()?.nativeElement.showModal();
+    this.menuDialog()?.nativeElement.showModal();
   }
 
   save() {
@@ -85,7 +88,7 @@ export class PlatoListComponent {
     obs.subscribe({
       next: (res) => {
         this.loadPlatos();
-        this.dialog()?.nativeElement.close();
+        this.menuDialog()?.nativeElement.close();
       },
       error: (err) => {
         console.error('Error al guardar:', err);
@@ -95,16 +98,32 @@ export class PlatoListComponent {
 
   delete() {
     const data: Plato = this.form.value;
-    const obs = this.platoService.deletePlatoBackend(data.id);
+    this.openDeleteModal(data);
+    }
+    
+  openDeleteModal(plato: Plato) {
+    this.platoParaEliminar = plato;
+    this.menuDialog()?.nativeElement.close();
+    setTimeout(() => {
+      this.confirmDialog()?.nativeElement.showModal();
+    }, 100);
+  }
+  
+  confirmDelete() {
+    if (!this.platoParaEliminar) return;
 
-    obs.subscribe({
-      next: (res) => {
+    this.isDeleting.set(true);
+    
+    this.platoService.deletePlatoBackend(this.platoParaEliminar.id!).subscribe({
+      next: () => {
         this.loadPlatos();
-        this.dialog()?.nativeElement.close();
+        this.confirmDialog()?.nativeElement.close();
+        this.platoParaEliminar = null;
+        this.isDeleting.set(false);
       },
       error: (err) => {
-        console.error('Error al eliminar plato:', err);
-      },
+          console.error('Error al eliminar: ', err);
+        }
     });
   }
 }

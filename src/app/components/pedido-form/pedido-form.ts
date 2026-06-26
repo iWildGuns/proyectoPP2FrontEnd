@@ -103,7 +103,7 @@ export class PedidoForm implements OnInit {
       platoId: this.pedidoForm.value.platoId,
     };
 
-    console.log('Payload listo para mandar al bachend', payload);
+    console.log('Payload listo para mandar al backend', payload);
     console.log(payload);
     this.pedidoService.addPedido(payload).subscribe({
       next: (data) => {

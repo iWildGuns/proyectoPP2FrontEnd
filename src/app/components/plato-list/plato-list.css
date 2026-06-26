@@ -36,7 +36,6 @@
 .custom-table td {
   padding: 12px 16px;
   border-bottom: 1px solid #e2e8f0;
-  height: 75px;
 }
 
 .custom-table tbody tr:nth-of-type(even) {
@@ -309,24 +308,7 @@
   transition: all 0.2s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
-/*
-.modal-content {
-  width: 100%;
-  max-width: 450px;
-  Animación sencilla de aparición
-  animation: slideIn 0.3s ease-out forwards;
-}
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-} */
 
 .contenedor-principal {
   display: flex;

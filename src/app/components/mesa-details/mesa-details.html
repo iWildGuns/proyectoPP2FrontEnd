@@ -1,97 +1,93 @@
 @if (mesa$ | async; as mesa) {
-  <div class="mesa-detail">
-    <div class="mesa-detail-header">
-      <button class="btn-volver" (click)="deselectMesa()">
-        <i class="ti ti-arrow-left"></i> Volver
-      </button>
-      <div class="option-buttoms">
-        <button class="btn-add-pedido" (click)="openPedidoForm()">Agregar Pedido</button>
+<div class="mesa-detail">
+  <div class="mesa-detail-header">
+    <button class="btn-volver" (click)="deselectMesa()">
+      <i class="ti ti-arrow-left"></i> Volver
+    </button>
+    <div class="option-buttoms">
+      <button class="btn-add-pedido" (click)="openPedidoForm()">Agregar Pedido</button>
 
-        <button class="btn-edit" (click)="editMesaForm()">Editar Mesa</button>
-      </div>
+      <button class="btn-edit" (click)="editMesaForm()">Editar Mesa</button>
     </div>
   </div>
-  <div class="mesa-details-card">
-    <div class="mesa-panel">
-      <div class="mesa-header">
-        <h2>Mesa #{{ mesa.numero }}</h2>
-        <span class="badge" [ngClass]="getEstadoClass(mesa.estado)" (click)="ciclarEstado(mesa)">{{
-          mesa.estado
+</div>
+<div class="mesa-details-card">
+  <div class="mesa-panel">
+    <div class="mesa-header">
+      <h2>Mesa #{{ mesa.numero }}</h2>
+      <span class="badge" [ngClass]="getEstadoClass(mesa.estado)" (click)="ciclarEstado(mesa)">{{
+        mesa.estado
         }}</span>
-      </div>
+    </div>
 
-      <div class="stats-grid">
-        <div class="stat-card">
-          <p class="stat-label">Capacidad</p>
-          <p class="stat-value">{{ mesa.capacidad }} <span>pers</span></p>
-        </div>
-        <div class="stat-card">
-          <p class="stat-label">Clientes</p>
-          <p class="stat-value">{{ mesa.clientesActuales }}</p>
-        </div>
-        <div class="stat-card">
-          <p class="stat-label">Consumo</p>
-          <p class="stat-value">{{ mesa.consumoActual | currency: 'ARS' }}</p>
-        </div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <p class="stat-label">Capacidad</p>
+        <p class="stat-value">{{ mesa.capacidad }} <span>pers</span></p>
       </div>
+      <div class="stat-card">
+        <p class="stat-label">Clientes</p>
+        <p class="stat-value">{{ mesa.clientesActuales }}</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Consumo</p>
+        <p class="stat-value">{{ mesa.consumoActual | currency:'ARS' }}</p>
+      </div>
+    </div>
 
-      <table class="info-table">
-        <tr>
-          <td><i class="ti ti-user"></i> Mesero</td>
-          <td class="info-value">{{ mesa.meseroAsignado || 'Sin asignar' }}</td>
-        </tr>
-        <tr>
-          <td><i class="ti ti-clock"></i> Duración est.</td>
-          <td class="info-value">
-            {{ mesa.duracionEstimada ? mesa.duracionEstimada + ' min' : '-' }}
-          </td>
-        </tr>
+    <table class="info-table">
+      <tr>
+        <td><i class="ti ti-user"></i> Mesero</td>
+        <td class="info-value">{{ mesa.meseroAsignado || 'Sin asignar' }}</td>
+      </tr>
+      <tr>
+        <td><i class="ti ti-clock"></i> Duración est.</td>
+        <td class="info-value">
+          {{ mesa.duracionEstimada ? mesa.duracionEstimada + ' min' : '-' }}
+        </td>
+      </tr>
+    </table>
+
+    <div class="pedidos-section">
+      <p class="section-label">Pedidos</p>
+      <table class="pedidos-table">
+        <thead>
+          <tr>
+            <th>Plato</th>
+            <th>Estado</th>
+            <th class="text-right">Precio</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (pedido of mesa.pedidos; track pedido.id) {
+          <tr>
+            <td>{{ pedido.plato?.nombre ?? '-' }}</td>
+            <td>
+              <span class="badge" [ngClass]="getEstadoClass(pedido.estado)">{{
+                pedido.estado
+                }}</span>
+            </td>
+            <td class="text-right">{{ pedido.plato?.precio | currency: 'ARS' }}</td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="3" class="empty">Sin pedidos</td>
+          </tr>
+          }
+        </tbody>
       </table>
-
-      <div class="pedidos-section">
-        <p class="section-label">Pedidos</p>
-        <table class="pedidos-table">
-          <thead>
-            <tr>
-              <th>Plato</th>
-              <th>Estado</th>
-              <th class="text-right">Precio</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (pedido of mesa.pedidos; track pedido.id) {
-              <tr>
-                <td>{{ pedido.plato?.nombre ?? '-' }}</td>
-                <td>
-                  <span class="badge" [ngClass]="getEstadoClass(pedido.estado)">{{
-                    pedido.estado
-                  }}</span>
-                </td>
-                <td class="text-right">{{ pedido.plato?.precio | currency: 'ARS' }}</td>
-              </tr>
-            } @empty {
-              <tr>
-                <td colspan="3" class="empty">Sin pedidos</td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
     </div>
   </div>
-  @if (showPedidoForm) {
-    <div class="modal-overlay" (click)="closePedidoForm()">
-      <div class="modal-content" (click)="$event.stopPropagation()">
-        <app-pedido-form
-          [platosDisponibles]="platosDisponibles"
-          [mesa]="mesa"
-          (formClosed)="closePedidoForm()"
-          (pedidoCreated)="onPedidoCreated($event)"
-        >
-        </app-pedido-form>
-      </div>
-    </div>
-  }
+</div>
+@if (showPedidoForm) {
+<div class="modal-overlay" (click)="closePedidoForm()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <app-pedido-form [platosDisponibles]="platosDisponibles" [mesa]="mesa" (formClosed)="closePedidoForm()"
+      (pedidoCreated)="onPedidoCreated($event)">
+    </app-pedido-form>
+  </div>
+</div>
+}
 } @else {
-  <p>Cargando...</p>
+<p>Cargando...</p>
 }

@@ -12,10 +12,13 @@ import { Plato } from '../../types';
 })
 export class PlatoListComponent {
   platos = signal<Plato[]>([]);
-  dialog = viewChild<ElementRef<HTMLDialogElement>>('menuDialog');
+  menuDialog = viewChild<ElementRef<HTMLDialogElement>>('menuDialog');
+  confirmDialog = viewChild<ElementRef<HTMLDialogElement>>('confirmDialog');
   form: FormGroup;
   isEditing = false;
+  isDeleting = signal(false);
   hoveredIndex: number | null = null;
+  platoParaEliminar: Plato | null = null;
   sinGlutenLogo: string = 'sin_gluten_legal-01.png';
 
   constructor(
@@ -64,7 +67,7 @@ export class PlatoListComponent {
         sinGluten: false,
         disponible: true,
       });
-    this.dialog()?.nativeElement.showModal();
+    this.menuDialog()?.nativeElement.showModal();
   }
 
   save() {
@@ -85,7 +88,7 @@ export class PlatoListComponent {
     obs.subscribe({
       next: (res) => {
         this.loadPlatos();
-        this.dialog()?.nativeElement.close();
+        this.menuDialog()?.nativeElement.close();
       },
       error: (err) => {
         console.error('Error al guardar:', err);
@@ -97,14 +100,42 @@ export class PlatoListComponent {
     const data: Plato = this.form.value;
     const obs = this.platoService.deletePlatoBackend(data.id);
 
-    obs.subscribe({
-      next: (res) => {
-        this.loadPlatos();
-        this.dialog()?.nativeElement.close();
-      },
-      error: (err) => {
-        console.error('Error al eliminar plato:', err);
-      },
-    });
+    this.openDeleteModal(data);
+
+    // obs.subscribe({
+    //   next: (res) => {
+    //     this.loadPlatos();
+    //     this.dialog()?.nativeElement.close();
+    //   },
+    //   error: (err) => {
+    //     console.error('Error al eliminar plato:', err);
+    //   },
+  // );
+    }
+    
+    openDeleteModal(plato: Plato) {
+      this.platoParaEliminar = plato;
+      this.menuDialog()?.nativeElement.close();
+      setTimeout(() => {
+        this.confirmDialog()?.nativeElement.showModal();
+      }, 100);
+    }
+    
+    confirmDelete() {
+      if (!this.platoParaEliminar) return;
+
+      this.isDeleting.set(true);
+      
+      this.platoService.deletePlatoBackend(this.platoParaEliminar.id!).subscribe({
+        next: () => {
+          this.loadPlatos();
+          this.confirmDialog()?.nativeElement.close();
+          this.platoParaEliminar = null;
+          this.isDeleting.set(false);
+        },
+        error: (err) => {
+            console.error('Error al eliminar: ', err);
+          }
+      });
+    }
   }
-}

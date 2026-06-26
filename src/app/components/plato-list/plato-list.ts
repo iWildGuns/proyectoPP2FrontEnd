@@ -15,11 +15,11 @@ export class PlatoListComponent {
   menuDialog = viewChild<ElementRef<HTMLDialogElement>>('menuDialog');
   confirmDialog = viewChild<ElementRef<HTMLDialogElement>>('confirmDialog');
   form: FormGroup;
-  isEditing = false;
+  isEditing: boolean = false;
   isDeleting = signal(false);
   hoveredIndex: number | null = null;
   platoParaEliminar: Plato | null = null;
-  sinGlutenLogo: string = 'sin_gluten_legal-01.png';
+  sinGlutenLogo: string = 'gluten-free-64.png';
 
   constructor(
     private fb: FormBuilder,
@@ -98,44 +98,32 @@ export class PlatoListComponent {
 
   delete() {
     const data: Plato = this.form.value;
-    const obs = this.platoService.deletePlatoBackend(data.id);
-
     this.openDeleteModal(data);
-
-    // obs.subscribe({
-    //   next: (res) => {
-    //     this.loadPlatos();
-    //     this.dialog()?.nativeElement.close();
-    //   },
-    //   error: (err) => {
-    //     console.error('Error al eliminar plato:', err);
-    //   },
-  // );
     }
     
-    openDeleteModal(plato: Plato) {
-      this.platoParaEliminar = plato;
-      this.menuDialog()?.nativeElement.close();
-      setTimeout(() => {
-        this.confirmDialog()?.nativeElement.showModal();
-      }, 100);
-    }
-    
-    confirmDelete() {
-      if (!this.platoParaEliminar) return;
-
-      this.isDeleting.set(true);
-      
-      this.platoService.deletePlatoBackend(this.platoParaEliminar.id!).subscribe({
-        next: () => {
-          this.loadPlatos();
-          this.confirmDialog()?.nativeElement.close();
-          this.platoParaEliminar = null;
-          this.isDeleting.set(false);
-        },
-        error: (err) => {
-            console.error('Error al eliminar: ', err);
-          }
-      });
-    }
+  openDeleteModal(plato: Plato) {
+    this.platoParaEliminar = plato;
+    this.menuDialog()?.nativeElement.close();
+    setTimeout(() => {
+      this.confirmDialog()?.nativeElement.showModal();
+    }, 100);
   }
+  
+  confirmDelete() {
+    if (!this.platoParaEliminar) return;
+
+    this.isDeleting.set(true);
+    
+    this.platoService.deletePlatoBackend(this.platoParaEliminar.id!).subscribe({
+      next: () => {
+        this.loadPlatos();
+        this.confirmDialog()?.nativeElement.close();
+        this.platoParaEliminar = null;
+        this.isDeleting.set(false);
+      },
+      error: (err) => {
+          console.error('Error al eliminar: ', err);
+        }
+    });
+  }
+}

@@ -25,9 +25,11 @@
                     <td>{{ p.nombre }}</td>
                     <td>{{ p.descripcion }}</td>
                     <td>{{ p.precio | currency:'ARS' }}</td>
-                    <td class="centered-cell">
+                    <td>
                         @if (p.sinGluten) {
-                        <img class="sg-logo" [src]="sinGlutenLogo" alt="Logo sin gluten" width="30px" />
+                        <div class="centered-cell">
+                            <img class="sg-logo" [src]="sinGlutenLogo" alt="Logo sin gluten" width=30 height=30 />
+                        </div>
                         }
                     </td>
                     <td class="center">

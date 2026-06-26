@@ -13,6 +13,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class PedidoForm implements OnInit {
   @Input() mesa: Mesa | null = null;
+  @Input() platosDisponibles: Plato[] | [] = [];
   @Output() formClosed = new EventEmitter<void>();
   @Output() pedidoCreated = new EventEmitter<Pedido>();
 
@@ -23,7 +24,6 @@ export class PedidoForm implements OnInit {
   private pedidoService = inject(PedidoService);
   private platoService = inject(PlatoService);
 
-  platosDisponible: Plato[] | [] = [];
   pedidoForm!: FormGroup;
   isSubmitting: boolean = false;
 
@@ -32,7 +32,6 @@ export class PedidoForm implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.getPlatos();
     this.pedidoForm = this.fb.group({
       // mesa: ['', [Validators.required, Validators.min(1)]],
       platoId: this.fb.array([], Validators.minLength(1)),
@@ -53,17 +52,6 @@ export class PedidoForm implements OnInit {
     });
   }
 
-  getPlatos() {
-    this.platoService.getPlatosBackend().subscribe({
-      next: (data) => {
-        this.platosDisponible = data;
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
-  }
-
   agregarPlatoAlPedido(platoId: Plato['id']) {
     this.platosFormArray.push(this.fb.control(platoId));
   }
@@ -73,18 +61,18 @@ export class PedidoForm implements OnInit {
   }
 
   obtenerInfoPlato(id: Plato['id']): Plato | undefined {
-    return this.platosDisponible.find((p) => p.id === id);
+    return this.platosDisponibles.find((p) => p.id === id);
   }
 
   calcularTotal(): number {
     return this.platosFormArray.controls.reduce((total, control) => {
       const plato = this.obtenerInfoPlato(control.value);
-      return total + (plato ? parseInt(plato.precio) : 0);
+      return total + (plato ? plato.precio : 0);
     }, 0);
   }
 
   cancelar() {
-    this.formClosed.emit;
+    this.formClosed.emit();
   }
 
   enviarPedido() {

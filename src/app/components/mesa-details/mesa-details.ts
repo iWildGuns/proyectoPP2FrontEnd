@@ -9,8 +9,8 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { MesaService, PedidoService } from '../../services';
-import { Mesa, mesaStatus, Pedido } from '../../types';
+import { MesaService, PedidoService, PlatoService } from '../../services';
+import { Mesa, mesaStatus, Pedido, Plato } from '../../types';
 import { PedidoForm } from '../pedido-form/pedido-form';
 
 @Component({
@@ -23,18 +23,33 @@ export class MesaDetails implements OnChanges {
   @Input() mesaId: Mesa['id'] | null = null;
   @Output() mesaActualizada = new EventEmitter<void>();
   private mesaService = inject(MesaService);
+  private platoService = inject(PlatoService);
   mesa$: Observable<Mesa> | null = null;
   showPedidoForm: boolean = false;
+  platosDisponibles: Plato[] | [] = [];
 
   // pedidosSubject$ = new BehaviorSubject<Pedido[]>([]);
   // pedidos$: Observable<Pedido[]> = this.pedidosSubject$.asObservable();
 
-  constructor() {}
+  constructor() {
+    this.getPlatos();
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['mesaId'] && this.mesaId) {
       this.mesa$ = this.mesaService.getMesaById(this.mesaId);
     }
+  }
+
+  getPlatos() {
+    this.platoService.getPlatosBackend().subscribe({
+      next: (data) => {
+        this.platosDisponibles = data;
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   editMesaForm() {

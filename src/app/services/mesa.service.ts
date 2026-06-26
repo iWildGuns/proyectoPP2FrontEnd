@@ -35,7 +35,7 @@ export class MesaService {
 
   updateMesaState(id: Mesa['id'], mesaData: string) {
     const body = { estado: mesaData };
-    return this.http.patch<string>(`${this.API_URL}/mesas/${id}`, body, {
+    return this.http.patch<string>(`${this.API_URL}/${id}`, body, {
       headers: { 'X-Toast-Message': 'Estado de mesa actualizado' },
     });
   }

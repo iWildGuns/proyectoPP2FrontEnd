@@ -16,9 +16,12 @@ export class PlatoListComponent {
   form: FormGroup;
   isEditing = false;
   hoveredIndex: number | null = null;
-  sinGlutenLogo: string = "sin_gluten_legal-01.png";
+  sinGlutenLogo: string = 'sin_gluten_legal-01.png';
 
-  constructor(private fb: FormBuilder, private platoService: PlatoService) {
+  constructor(
+    private fb: FormBuilder,
+    private platoService: PlatoService,
+  ) {
     this.form = this.fb.group({
       id: [null],
       codigo: ['', Validators.required],
@@ -26,7 +29,7 @@ export class PlatoListComponent {
       descripcion: [''],
       precio: [0, [Validators.required, Validators.min(1)]],
       sinGluten: [false],
-      disponible: [true]
+      disponible: [true],
     });
     this.loadPlatos();
   }
@@ -38,45 +41,46 @@ export class PlatoListComponent {
   get nombre() {
     return this.form.get('nombre');
   }
-   get descripcion() {
+  get descripcion() {
     return this.form.get('descripcion');
   }
-   get precio() {
+  get precio() {
     return this.form.get('precio');
   }
 
   loadPlatos() {
-    this.platoService.getPlatosBackend().subscribe(data => this.platos.set(data));
+    this.platoService.getPlatosBackend().subscribe((data) => this.platos.set(data));
   }
 
   openModal(plato?: Plato) {
     this.isEditing = !!plato;
-    if (plato) this.form.patchValue(plato)
-    else this.form.reset({
-      codigo: '',
-      nombre: '',
-      descripcion: '',
-      precio: 0,
-      sinGluten: false,
-      disponible: true
-    });
+    if (plato) this.form.patchValue(plato);
+    else
+      this.form.reset({
+        codigo: '',
+        nombre: '',
+        descripcion: '',
+        precio: 0,
+        sinGluten: false,
+        disponible: true,
+      });
     this.dialog()?.nativeElement.showModal();
   }
 
-  save(){
-    if(this.form.invalid){
-      console.log("Formulario invalido: ", this.form.errors);
+  save() {
+    if (this.form.invalid) {
+      console.log('Formulario invalido: ', this.form.errors);
       return;
     }
     const data: Plato = this.form.value;
-    
+
     if (!data.id) {
       delete data.id;
     }
 
     const obs = this.isEditing
-    ? this.platoService.updatePlatoBackend(data)
-    : this.platoService.addPlatoBackend(data);
+      ? this.platoService.updatePlatoBackend(data)
+      : this.platoService.addPlatoBackend(data);
 
     obs.subscribe({
       next: (res) => {
@@ -85,8 +89,8 @@ export class PlatoListComponent {
       },
       error: (err) => {
         console.error('Error al guardar:', err);
-      }
-    })
+      },
+    });
   }
 
   delete() {
@@ -100,8 +104,7 @@ export class PlatoListComponent {
       },
       error: (err) => {
         console.error('Error al eliminar plato:', err);
-      }
-    })
+      },
+    });
   }
-
 }

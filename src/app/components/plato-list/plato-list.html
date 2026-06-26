@@ -1,113 +1,138 @@
 <div class="salon-detail">
-    <div class="salon-header">
-        <h2>Menú</h2>
-        <div class="option-buttons">
-            <button class="btn-add" (click)="openModal()">Agregar Plato</button>
-        </div>
+  <div class="salon-header">
+    <h2>Menú</h2>
+    <div class="option-buttons">
+      <button class="btn-add" (click)="openModal()">Agregar Plato</button>
     </div>
-    <div class="table-container">
-        <table class="custom-table">
-            <thead>
-                <tr>
-                    <th>Codigo</th>
-                    <th>Nombre</th>
-                    <th>Descripcion</th>
-                    <th>Precio</th>
-                    <th>Sin Gluten</th>
-                    <th>Disponible</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (p of platos(); track p.id) {
-                <tr class="table-row">
-                    <td>{{ p.codigo}}</td>
-                    <td>{{ p.nombre}}</td>
-                    <td>{{ p.descripcion }}</td>
-                    <td>{{ p.precio | currency}}</td>
-                    <td class="centered-cell">
-                        @if (p.sinGluten) {
-                        <img class="sg-logo" [src]="sinGlutenLogo" alt="Logo sin gluten" width="30px">
-                        }
-                    </td>
-                    <td class="center">
-                        <span class="status-badge">
-                            {{ p.disponible ? 'Disponible' : 'No Disponible' }}
-                        </span>
-                    </td>
-                    <td>
-                        <button (click)="openModal(p)" class="edit-btn">Editar</button>
-                    </td>
-                </tr>
-                } @empty {
-                <tr>
-                    <td colspan="7" class="empty-message">No hay platos</td>
-                </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-    <dialog #menuDialog>
-        <div class="modal-overlay">
-            <div class="modal-content">
-                <h3>{{ isEditing ? 'Editar plato' : 'Nuevo plato'}}</h3>
+  </div>
+  <div class="table-container">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>Codigo</th>
+          <th>Nombre</th>
+          <th>Descripcion</th>
+          <th>Precio</th>
+          <th>Sin Gluten</th>
+          <th>Disponible</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (p of platos(); track p.id) {
+          <tr class="table-row">
+            <td>{{ p.codigo }}</td>
+            <td>{{ p.nombre }}</td>
+            <td>{{ p.descripcion }}</td>
+            <td>{{ p.precio | currency }}</td>
+            <td class="centered-cell">
+              @if (p.sinGluten) {
+                <img class="sg-logo" [src]="sinGlutenLogo" alt="Logo sin gluten" width="30px" />
+              }
+            </td>
+            <td class="center">
+              <span class="status-badge">
+                {{ p.disponible ? 'Disponible' : 'No Disponible' }}
+              </span>
+            </td>
+            <td>
+              <button (click)="openModal(p)" class="edit-btn">Editar</button>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" class="empty-message">No hay platos</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <dialog #menuDialog>
+    <div class="modal-overlay">
+      <div class="modal-content">
+        <h3>{{ isEditing ? 'Editar plato' : 'Nuevo plato' }}</h3>
 
-                <form [formGroup]="form" (ngSubmit)="save()" class="platoForm">
-                    <div class="form-group">
-                        <label for="codigo">Código</label>
-                        <input id="codigo" type="text" formControlName="codigo" placeholder="Ej: 242"
-                            [class.is-invalid]="codigo?.invalid && codigo!.touched" />
-                        @if (codigo?.invalid && codigo!.touched) {
-                        <small class="error-text">El número es obligatorio y debe ser mayor a 0.</small>
-                        }
-                    </div>
-                    <div class="form-group">
-                        <label for="nombre">Nombre</label>
-                        <input id="nombre" type="text" formControlName="nombre" placeholder="Ej: Milanesa"
-                            [class.is-invalid]="nombre?.invalid && nombre!.touched" />
-                        @if (nombre?.invalid && nombre!.touched) {
-                        <small class="error-text">El nombre es obligatorio.</small>
-                        }
-                    </div>
-                    <div class="form-group">
-                        <label for="descripcion">Descripción</label>
-                        <textarea id="descripcion" class="custom-textarea" formControlName="descripcion" rows="5"
-                            cols="40" placeholder="Ej: con puré"></textarea>
-                        @if (descripcion?.invalid && descripcion!.touched) {
-                        <small class="error-text">La descripción es obligatoria.</small>
-                        }
-                    </div>
-                    <div class="form-group">
-                        <label for="precio">Precio</label>
-                        <input id="precio" type="number" formControlName="precio" placeholder="Ej: 1500"
-                            [class.is-invalid]="precio?.invalid && precio!.touched" />
-                        @if (precio?.invalid && precio!.touched) {
-                        <small class="error-text">El precio es obligatorio y debe ser mayor a 0.</small>
-                        }
-                    </div>
-                    <div class="form-group checkbox-group">
-                        <label for="sinGluten">
-                            <input id="sinGluten" type="checkbox" formControlName="sinGluten" />
-                            Sin gluten
-                        </label>
-                    </div>
-                    <div class="form-group checkbox-group">
-                        <label for="disponible">
-                            <input id="disponible" type="checkbox" formControlName="disponible" />
-                            Disponible
-                        </label>
-                    </div>
-                    <div class="modal-actions">
-                        @if (isEditing) {
-                        <button type="button" class="modal-btn delete-btn" (click)="delete()">Eliminar plato</button>
-                        }
-                        <button type="submit" class="modal-btn" [class]="isEditing? 'btn-edit': 'btn-submit'">
-                            {{ isEditing ? 'Guardar cambios' : 'Crear plato'}}</button>
-                        <button type="button" class="modal-btn cancel-btn"
-                            (click)="menuDialog.close()">Cancelar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </dialog>
+        <form [formGroup]="form" (ngSubmit)="save()" class="platoForm">
+          <div class="form-group">
+            <label for="codigo">Código</label>
+            <input
+              id="codigo"
+              type="text"
+              formControlName="codigo"
+              placeholder="Ej: 242"
+              [class.is-invalid]="codigo?.invalid && codigo!.touched"
+            />
+            @if (codigo?.invalid && codigo!.touched) {
+              <small class="error-text">El número es obligatorio y debe ser mayor a 0.</small>
+            }
+          </div>
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input
+              id="nombre"
+              type="text"
+              formControlName="nombre"
+              placeholder="Ej: Milanesa"
+              [class.is-invalid]="nombre?.invalid && nombre!.touched"
+            />
+            @if (nombre?.invalid && nombre!.touched) {
+              <small class="error-text">El nombre es obligatorio.</small>
+            }
+          </div>
+          <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <textarea
+              id="descripcion"
+              class="custom-textarea"
+              formControlName="descripcion"
+              rows="5"
+              cols="40"
+              placeholder="Ej: con puré"
+            ></textarea>
+            @if (descripcion?.invalid && descripcion!.touched) {
+              <small class="error-text">La descripción es obligatoria.</small>
+            }
+          </div>
+          <div class="form-group">
+            <label for="precio">Precio</label>
+            <input
+              id="precio"
+              type="number"
+              formControlName="precio"
+              placeholder="Ej: 1500"
+              [class.is-invalid]="precio?.invalid && precio!.touched"
+            />
+            @if (precio?.invalid && precio!.touched) {
+              <small class="error-text">El precio es obligatorio y debe ser mayor a 0.</small>
+            }
+          </div>
+          <div class="form-group checkbox-group">
+            <label for="sinGluten">
+              <input id="sinGluten" type="checkbox" formControlName="sinGluten" />
+              Sin gluten
+            </label>
+          </div>
+          <div class="form-group checkbox-group">
+            <label for="disponible">
+              <input id="disponible" type="checkbox" formControlName="disponible" />
+              Disponible
+            </label>
+          </div>
+          <div class="modal-actions">
+            @if (isEditing) {
+              <button type="button" class="modal-btn delete-btn" (click)="delete()">
+                Eliminar plato
+              </button>
+            }
+            <button type="submit" class="modal-btn" [class]="isEditing ? 'btn-edit' : 'btn-submit'">
+              {{ isEditing ? 'Guardar cambios' : 'Crear plato' }}
+            </button>
+            <button type="button" class="modal-btn cancel-btn" (click)="menuDialog.close()">
+              Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </dialog>
 </div>

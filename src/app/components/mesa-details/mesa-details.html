@@ -83,6 +83,7 @@
     <div class="modal-overlay" (click)="closePedidoForm()">
       <div class="modal-content" (click)="$event.stopPropagation()">
         <app-pedido-form
+          [platosDisponibles]="platosDisponibles"
           [mesa]="mesa"
           (formClosed)="closePedidoForm()"
           (pedidoCreated)="onPedidoCreated($event)"

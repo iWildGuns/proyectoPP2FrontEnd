@@ -3,7 +3,7 @@
     <h2>Menú Disponible (Mesa {{ mesa?.numero }})</h2>
 
     <div class="grid-botones">
-      @for (plato of platosDisponible; track plato.id) {
+      @for (plato of platosDisponibles; track plato.id) {
         <button type="button" class="btn-plato" (click)="agregarPlatoAlPedido(plato.id)">
           <span class="nombre">{{ plato.nombre }}</span>
           <span class="precio">${{ plato.precio }}</span>

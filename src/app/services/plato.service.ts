@@ -13,6 +13,10 @@ export class PlatoService {
   private platosSubject = new BehaviorSubject<Plato[]>([]);
   public platos$ = this.platosSubject.asObservable();
 
+  getPlatosBackend(): Observable<Plato[]> {
+    return this.http.get<Plato[]>(`${this.API_URL}`);
+  }
+
   getPlatoByIdBackend(id: string) {
     return this.http.get<Plato>(`${this.API_URL}/${id}/platos`);
   }
@@ -25,7 +29,7 @@ export class PlatoService {
 
   updatePlatoBackend(plato: Partial<Plato>) {
     return this.http.put(`${this.API_URL}/${plato.id}`, plato, {
-      headers: { 'X-Toast-Message': 'Plato actualizado con éxito'}
+      headers: { 'X-Toast-Message': 'Plato actualizado con éxito' },
     });
   }
 
@@ -34,3 +38,4 @@ export class PlatoService {
       headers: { 'X-Toast-Message': 'Plato eliminado con éxito' },
     });
   }
+}

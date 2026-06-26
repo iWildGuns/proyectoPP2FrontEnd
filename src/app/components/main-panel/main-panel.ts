@@ -99,11 +99,9 @@ export class MainPanelComponent implements OnInit {
     const isChecked = (event.target as HTMLInputElement).checked;
 
     if (isChecked) {
-      // Si se marca, lo agregamos al arreglo
       this.arrayMesas!.push(id);
       console.log(this.arrayMesas);
     } else {
-      // Si se desmarca, lo filtramos para sacarlo del arreglo
       this.arrayMesas = this.arrayMesas!.filter((mesaId) => mesaId !== id);
     }
   }

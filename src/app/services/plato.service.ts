@@ -9,21 +9,17 @@ import { Plato } from '../types';
 export class PlatoService {
   private http = inject(HttpClient);
   private API_URL = 'http://localhost:1500/api/platos';
-  
-  private platosSubject = new BehaviorSubject<Plato | null>(null);
+
+  private platosSubject = new BehaviorSubject<Plato[]>([]);
   public platos$ = this.platosSubject.asObservable();
 
-  getPlatosBackend() {
-    return this.http.get<Plato[]>(this.API_URL);
-  }
-
   getPlatoByIdBackend(id: string) {
-    return this.http.get<Plato>(`${this.API_URL}/${id}`);
+    return this.http.get<Plato>(`${this.API_URL}/${id}/platos`);
   }
 
-  addPlatoBackend(plato: Partial<Plato>): Observable<Plato> {
-    return this.http.post<Plato>(this.API_URL, plato, {
-      headers: { 'X-Toast-Message': 'Plato añadido con éxito'}
+  addPlatoBackend(plato: Plato) {
+    return this.http.post(`${this.API_URL}`, plato, {
+      headers: { 'X-Toast-Message': 'Plato añadido con éxito' },
     });
   }
 
@@ -35,7 +31,6 @@ export class PlatoService {
 
   deletePlatoBackend(id: string | undefined) {
     return this.http.delete(`${this.API_URL}/${id}`, {
-      headers: { 'X-Toast-Message': 'Plato eliminado con éxito'}
+      headers: { 'X-Toast-Message': 'Plato eliminado con éxito' },
     });
   }
-}

@@ -33,6 +33,13 @@ export class MesaService {
     });
   }
 
+  updateMesaState(id: Mesa['id'], mesaData: string) {
+    const body = { estado: mesaData };
+    return this.http.patch<string>(`${this.API_URL}/mesas/${id}`, body, {
+      headers: { 'X-Toast-Message': 'Estado de mesa actualizado' },
+    });
+  }
+
   deleteMultiplesMesas(ids: Mesa['id'][]): Observable<{ message: string }> {
     console.log(typeof ids);
     return this.http.post<{ message: string }>(

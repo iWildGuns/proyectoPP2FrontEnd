@@ -22,11 +22,9 @@ export class MesaFormComponent {
   isSubmitting = false;
 
   constructor() {
-    // Inicializamos el formulario con las validaciones
     this.mesaForm = this.fb.group({
       numero: ['', [Validators.required, Validators.min(1)]],
       capacidad: ['', [Validators.required, Validators.min(1)]],
-      estado: ['Disponible', Validators.required],
     });
   }
 

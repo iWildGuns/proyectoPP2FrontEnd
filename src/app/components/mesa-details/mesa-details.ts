@@ -1,32 +1,35 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Observable } from 'rxjs';
-import { MesaService } from '../../services';
-import { Mesa } from '../../types';
+import {
+  Component,
+  inject,
+  Output,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  EventEmitter,
+} from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { MesaService, PedidoService } from '../../services';
+import { Mesa, mesaStatus, Pedido } from '../../types';
+import { PedidoForm } from '../pedido-form/pedido-form';
 
 @Component({
   selector: 'app-mesa-details',
-  imports: [CommonModule],
+  imports: [CommonModule, PedidoForm],
   templateUrl: './mesa-details.html',
   styleUrl: './mesa-details.css',
 })
 export class MesaDetails implements OnChanges {
   @Input() mesaId: Mesa['id'] | null = null;
+  @Output() mesaActualizada = new EventEmitter<void>();
   private mesaService = inject(MesaService);
   mesa$: Observable<Mesa> | null = null;
+  showPedidoForm: boolean = false;
+
+  // pedidosSubject$ = new BehaviorSubject<Pedido[]>([]);
+  // pedidos$: Observable<Pedido[]> = this.pedidosSubject$.asObservable();
 
   constructor() {}
-
-  // getMesaById() {
-  //   this.mesaService.getMesaById(this.mesaId).subscribe({
-  //     next: (res: any) => {
-  //       this.mesa = res;
-  //     },
-  //     error: (error) => {
-  //       console.log(error);
-  //     },
-  //   });
-  // }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['mesaId'] && this.mesaId) {
@@ -39,6 +42,7 @@ export class MesaDetails implements OnChanges {
   }
 
   deselectMesa(): void {
+    this.mesaActualizada.emit();
     this.mesaService.deselectMesa();
   }
 
@@ -50,25 +54,6 @@ export class MesaDetails implements OnChanges {
     return this.mesaService.getOcupacionPorcentaje(mesa);
   }
 
-  // getEstadoColor(estado: mesaStatus): string {
-  //   switch (estado) {
-  //     case 'Ocupada':
-  //       return '#ff6b6b';
-
-  //     case 'Disponible':
-  //       return '#51cf66';
-
-  //     case 'Reservada':
-  //       return '#ffd43b';
-
-  //     case 'Mantenimiento':
-  //       return '#868e96';
-
-  //     default:
-  //       return '#999';
-  //   }
-  // }
-
   getEstadoClass(estado: string): string {
     const map: Record<string, string> = {
       Disponible: 'badge-success',
@@ -78,7 +63,39 @@ export class MesaDetails implements OnChanges {
     return map[estado] ?? 'badge-default';
   }
 
-  agregarPedido() {
-    console.log(`agregando pedido...`);
+  openPedidoForm() {
+    this.showPedidoForm = true;
+  }
+
+  ciclarEstado(mesa: Mesa) {
+    const ordenEstados: mesaStatus[] = ['Disponible', 'Ocupada', 'Reservada', 'Mantenimiento'];
+    const indiceActual = ordenEstados.indexOf(mesa.estado);
+    const siguienteIndice = (indiceActual + 1) % ordenEstados.length;
+    const nuevoEstado = ordenEstados[siguienteIndice];
+
+    mesa.estado = nuevoEstado;
+
+    this.mesaService.updateMesaState(mesa.id, nuevoEstado).subscribe({
+      next: (data) => {
+        console.log(data);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+    console.log(nuevoEstado);
+  }
+
+  closePedidoForm() {
+    this.showPedidoForm = false;
+  }
+
+  onPedidoCreated(data: Pedido): void {
+    this.mesaActualizada.emit();
+    // const pedidosActuales = this.pedidosSubject$.getValue();
+    // const nuevoPedidoAdd = [...pedidosActuales, data];
+
+    // this.pedidosSubject$.next(nuevoPedidoAdd);
+    // this.closePedidoForm();
   }
 }

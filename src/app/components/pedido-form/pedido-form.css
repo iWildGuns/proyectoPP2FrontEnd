@@ -1,0 +1,133 @@
+/* .pos-container {
+  display: flex;
+  height: 90vh; 
+  font-family: Arial, sans-serif;
+  gap: 20px;
+  padding: 10px;
+} */
+
+.pos-container {
+  display: flex;
+  /* Cambia el height fijo por 100% para que llene el modal */
+  height: 100%;
+  min-height: 600px; /* Un alto mínimo para que no se vea feo si no hay platos */
+  font-family: Arial, sans-serif;
+  gap: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Panel Izquierdo */
+.panel-platos {
+  flex: 7; /* Ocupa el 70% del ancho */
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.grid-botones {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.btn-plato {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100px;
+  padding: 12px;
+  background-color: #ffffff;
+  border: 2px solid #007bff;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s;
+}
+
+.btn-plato:hover {
+  background-color: #e7f1ff;
+}
+
+.btn-plato .nombre {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.btn-plato .precio {
+  color: #28a745;
+  font-weight: bold;
+}
+
+/* Panel Derecho (Ticket) */
+.panel-ticket {
+  flex: 3; /* Ocupa el 30% del ancho */
+  background-color: #ffffff;
+  border: 2px solid #343a40;
+  border-radius: 8px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ticket-items {
+  flex-grow: 1;
+  overflow-y: auto; /* Permite scroll si el ticket es largo */
+  margin-top: 15px;
+  border-bottom: 2px dashed #ccc;
+  padding-bottom: 10px;
+}
+
+.item-linea {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.btn-eliminar {
+  background: none;
+  border: none;
+  color: #dc3545;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.ticket-vacio {
+  color: #6c757d;
+  text-align: center;
+  margin-top: 30px;
+}
+
+/* Footer del Ticket */
+.ticket-footer {
+  margin-top: 15px;
+}
+
+.total-box {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.btn-enviar {
+  width: 100%;
+  padding: 15px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-enviar:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}

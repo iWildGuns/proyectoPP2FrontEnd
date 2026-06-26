@@ -1,0 +1,47 @@
+<div class="pos-container">
+  <div class="panel-platos">
+    <h2>Menú Disponible (Mesa {{ mesa?.numero }})</h2>
+
+    <div class="grid-botones">
+      @for (plato of platosDisponible; track plato.id) {
+        <button type="button" class="btn-plato" (click)="agregarPlatoAlPedido(plato.id)">
+          <span class="nombre">{{ plato.nombre }}</span>
+          <span class="precio">${{ plato.precio }}</span>
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="panel-ticket">
+    <h2>Pedido Actual</h2>
+
+    <form [formGroup]="pedidoForm" (ngSubmit)="enviarPedido()">
+      <div class="ticket-items">
+        @for (control of platosFormArray.controls; track $index) {
+          @let info = obtenerInfoPlato(control.value);
+
+          <div class="item-linea">
+            <span>{{ info?.nombre }}</span>
+            <span class="precio-linea">${{ info?.precio }}</span>
+            <button type="button" class="btn-eliminar" (click)="eliminarPlatoDelPedido($index)">
+              ✕
+            </button>
+          </div>
+        } @empty {
+          <p class="ticket-vacio">El ticket está vacío. Toca los platos de la izquierda.</p>
+        }
+      </div>
+
+      <div class="ticket-footer">
+        <div class="total-box">
+          <strong>Total:</strong>
+          <span>${{ calcularTotal() }}</span>
+        </div>
+
+        <button type="submit" class="btn-enviar" [disabled]="pedidoForm.invalid">
+          Confirmar y Enviar Pedido
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

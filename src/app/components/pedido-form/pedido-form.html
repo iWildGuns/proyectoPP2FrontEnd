@@ -6,7 +6,7 @@
       @for (plato of platosDisponibles; track plato.id) {
         <button type="button" class="btn-plato" (click)="agregarPlatoAlPedido(plato.id)">
           <span class="nombre">{{ plato.nombre }}</span>
-          <span class="precio">${{ plato.precio }}</span>
+          <span class="precio">{{ plato.precio | currency: 'ARS' }}</span>
         </button>
       }
     </div>
@@ -22,7 +22,7 @@
 
           <div class="item-linea">
             <span>{{ info?.nombre }}</span>
-            <span class="precio-linea">${{ info?.precio }}</span>
+            <span class="precio-linea">{{ info?.precio | currency: 'ARS' }}</span>
             <button type="button" class="btn-eliminar" (click)="eliminarPlatoDelPedido($index)">
               ✕
             </button>

@@ -82,6 +82,8 @@ export class PedidoForm implements OnInit {
     const payload = this.pedidoForm.value;
 
     console.log('Payload listo para mandar al bachend', payload);
+    console.log(payload);
+    this.pedidoService.addPedido(payload);
   }
 
   onSubmit() {

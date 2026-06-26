@@ -5,7 +5,7 @@
         <i class="ti ti-arrow-left"></i> Volver
       </button>
       <div class="option-buttoms">
-        <button class="btn-add-pedido" (click)="agregarPedido()">Agregar Pedido</button>
+        <button class="btn-add-pedido" (click)="openPedidoForm()">Agregar Pedido</button>
 
         <button class="btn-edit" (click)="editMesaForm()">Editar Mesa</button>
       </div>
@@ -15,7 +15,9 @@
     <div class="mesa-panel">
       <div class="mesa-header">
         <h2>Mesa #{{ mesa.numero }}</h2>
-        <span class="badge" [ngClass]="getEstadoClass(mesa.estado)">{{ mesa.estado }}</span>
+        <span class="badge" [ngClass]="getEstadoClass(mesa.estado)" (click)="ciclarEstado(mesa)">{{
+          mesa.estado
+        }}</span>
       </div>
 
       <div class="stats-grid">
@@ -77,6 +79,18 @@
       </div>
     </div>
   </div>
+  @if (showPedidoForm) {
+    <div class="modal-overlay" (click)="closePedidoForm()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <app-pedido-form
+          [mesa]="mesa"
+          (formClosed)="closePedidoForm()"
+          (pedidoCreated)="onPedidoCreated($event)"
+        >
+        </app-pedido-form>
+      </div>
+    </div>
+  }
 } @else {
   <p>Cargando...</p>
 }

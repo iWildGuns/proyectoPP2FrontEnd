@@ -1,6 +1,9 @@
 <div class="main-panel-container">
   @if (selectedMesa$ | async; as selectedMesa) {
-    <app-mesa-details [mesaId]="selectedMesa.id"></app-mesa-details>
+    <app-mesa-details
+      [mesaId]="selectedMesa.id"
+      (mesaActualizada)="refreshMesas()"
+    ></app-mesa-details>
   } @else {
     <div class="salon-detail">
       <div class="salon-header">

@@ -79,6 +79,7 @@
   font-weight: 500;
   padding: 4px 12px;
   border-radius: 8px;
+  cursor: pointer;
 
   &.badge-success {
     background: #e1f5ee;
@@ -182,5 +183,65 @@
   .empty {
     color: var(--color-text-tertiary, #999);
     text-align: center;
+  }
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro semitransparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Asegura que esté por encima de todo */
+  backdrop-filter: blur(2px); /* Efecto de desenfoque moderno */
+}
+
+/* 1. El fondo oscuro que cubre toda la pantalla */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); /* Oscurece el fondo */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegura que esté por encima de toda la app */
+  backdrop-filter: blur(3px); /* Le da un toque moderno borrando un poco el fondo */
+}
+
+/* 2. El contenedor del modal (Versión ancha para el POS) */
+.modal-content {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+
+  /* Aquí está la clave para las 2 columnas: */
+  width: 95%;
+  max-width: 1000px; /* Mucho más ancho que los 450px de tus otros forms */
+  max-height: 90vh; /* Evita que sea más alto que la pantalla */
+
+  overflow: hidden; /* Evita que el contenido se desborde de los bordes redondeados */
+  display: flex;
+  flex-direction: column;
+
+  /* Tu animación original */
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+/* Animación que ya tenías (se mantiene igual) */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

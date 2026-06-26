@@ -18,7 +18,7 @@ export const notificationInterceptor: HttpInterceptorFn = (req, next) => {
       }
     }),
     catchError((error) => {
-      const toastr = inject(ToastrService);
+      //   const toastr = inject(ToastrService);
       toastr.error('Ocurrio un error: ' + (error.error?.message || 'Error desconocido'));
       return throwError(() => error);
     }),

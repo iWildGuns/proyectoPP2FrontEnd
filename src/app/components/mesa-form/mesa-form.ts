@@ -38,7 +38,7 @@ export class MesaFormComponent {
 
   onSubmit(): void {
     if (this.mesaForm.invalid) {
-      this.mesaForm.markAllAsTouched(); // Muestra los errores si intentan enviar vacío
+      this.mesaForm.markAllAsTouched();
       return;
     }
 

@@ -31,7 +31,7 @@
         </div>
         <div class="stat-card">
           <p class="stat-label">Consumo</p>
-          <p class="stat-value">{{ mesa.consumoActual | currency: 'ARS' }}</p>
+          <p class="stat-value">{{ calcularTotal(mesa) | currency: 'ARS' }}</p>
         </div>
       </div>
 

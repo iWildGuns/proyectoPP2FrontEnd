@@ -108,6 +108,7 @@ export class PedidoForm implements OnInit {
     this.pedidoService.addPedido(payload).subscribe({
       next: (data) => {
         console.log('guardadno en base de datos', data);
+        this.formClosed.emit();
       },
       error: (error) => {
         console.log(error);

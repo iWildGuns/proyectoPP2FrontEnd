@@ -21,40 +21,44 @@
 
       <div class="mesas-section">
         <div class="mesas-interactive-grid">
-          <ng-container *ngIf="mesas$ | async as mesas">
-            @for (mesa of mesas; track mesa.id) {
-              <div
-                class="mesa-card"
-                [style.border-color]="getEstadoColor(mesa.estado)"
-                (click)="selectMesa(mesa)"
-              >
+          @if (mesas$ | async; as mesas) {
+            <ng-container>
+              @for (mesa of mesas; track mesa.id) {
                 <div
-                  class="checkbox-container"
-                  *ngIf="isDeleteModeActive"
-                  (click)="$event.stopPropagation()"
+                  class="mesa-card"
+                  [style.border-color]="getEstadoColor(mesa.estado)"
+                  (click)="selectMesa(mesa)"
                 >
-                  <input
-                    type="checkbox"
-                    class="delete-checkbox"
-                    [checked]="arrayMesas!.includes(mesa.id)"
-                    (change)="toggleMesaSeleccion(mesa.id, $event)"
-                  />
-                </div>
+                  <div
+                    class="checkbox-container"
+                    *ngIf="isDeleteModeActive"
+                    (click)="$event.stopPropagation()"
+                  >
+                    <input
+                      type="checkbox"
+                      class="delete-checkbox"
+                      [checked]="arrayMesas!.includes(mesa.id)"
+                      (change)="toggleMesaSeleccion(mesa.id, $event)"
+                    />
+                  </div>
 
-                <div class="mesa-number">{{ mesa.numero }}</div>
-                <div class="mesa-estado" [style.background-color]="getEstadoColor(mesa.estado)">
-                  {{ mesa.estado.charAt(0).toUpperCase() }}
+                  <div class="mesa-number">{{ mesa.numero }}</div>
+                  <div class="mesa-estado" [style.background-color]="getEstadoColor(mesa.estado)">
+                    {{ mesa.estado.charAt(0).toUpperCase() }}
+                  </div>
+                  <div class="mesa-capacidad">{{ mesa.capacidad }} pers</div>
+                  <div *ngIf="mesa.estado === 'Ocupada'" class="mesa-ocupacion">
+                    {{ mesa.clientesActuales }}/{{ mesa.capacidad }}
+                  </div>
+                  <div *ngIf="mesa.estado === 'Ocupada'" class="mesa-tiempo">
+                    {{ getTiempoOcupacion(mesa) }}
+                  </div>
                 </div>
-                <div class="mesa-capacidad">{{ mesa.capacidad }} pers</div>
-                <div *ngIf="mesa.estado === 'Ocupada'" class="mesa-ocupacion">
-                  {{ mesa.clientesActuales }}/{{ mesa.capacidad }}
-                </div>
-                <div *ngIf="mesa.estado === 'Ocupada'" class="mesa-tiempo">
-                  {{ getTiempoOcupacion(mesa) }}
-                </div>
-              </div>
-            }
-          </ng-container>
+              }
+            </ng-container>
+          } @else {
+            <span class="emptySpan">Agrega mesas para comenzar...</span>
+          }
         </div>
       </div>
     </div>

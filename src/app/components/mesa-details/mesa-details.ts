@@ -9,7 +9,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MesaService, PlatoService } from '../../services';
+import { MesaService, PedidoService, PlatoService } from '../../services';
 import { Mesa, mesaStatus, Pedido, Plato } from '../../types';
 import { PedidoForm } from '../pedido-form/pedido-form';
 
@@ -112,5 +112,15 @@ export class MesaDetails implements OnChanges {
 
     // this.pedidosSubject$.next(nuevoPedidoAdd);
     // this.closePedidoForm();
+  }
+
+  calcularTotal(mesa: Mesa): number {
+    if (!mesa.pedidos) return 0;
+
+    return mesa.pedidos.reduce((totalPedido, pedido) => {
+      // Suma los platos de cada pedido
+      const sumaPlatos = pedido.platos.reduce((sum, plato) => sum + plato.precio, 0);
+      return totalPedido + sumaPlatos;
+    }, 0);
   }
 }

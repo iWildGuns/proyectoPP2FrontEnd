@@ -32,7 +32,6 @@ export class MainPanelComponent implements OnInit {
   selectMesa(mesa: Mesa): void {
     if (this.isDeleteModeActive) return;
     this.mesaService.selectMesa(mesa);
-    // this.activeDeleteMode();
   }
 
   getTiempoOcupacion(mesa: Mesa): string {

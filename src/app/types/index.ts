@@ -4,14 +4,15 @@ import { z } from 'zod';
 
 export const platoSchema = z.object({
   id: z.string().optional(),
-  codigo: z.string().min(1, "El codigo es obligatorio."),
-  nombre: z.string().min(3,"El nombre debe tener al menos 3 caracteres."),
+  codigo: z.string().min(1, 'El codigo es obligatorio.'),
+  nombre: z.string().min(3, 'El nombre debe tener al menos 3 caracteres.'),
   descripcion: z.string().optional(),
-  precio: z.coerce.number()
-  .positive({ message: "El precio debe ser mayor a 0." })
-  .multipleOf(0.01, { message: "El precio debe tener un maximo de 2 decimales." }),
+  precio: z.coerce
+    .number()
+    .positive({ message: 'El precio debe ser mayor a 0.' })
+    .multipleOf(0.01, { message: 'El precio debe tener un maximo de 2 decimales.' }),
   sinGluten: z.boolean(),
-  disponible: z.boolean()
+  disponible: z.boolean(),
 });
 
 export type Plato = z.infer<typeof platoSchema>;
@@ -24,7 +25,7 @@ export const pedidoSchema = z.object({
   id: z.string(),
   mesaId: z.string(),
   platoId: z.string().nullable(),
-  plato: platoSchema.nullable(),
+  platos: z.array(platoSchema),
   estado: pedidoStatusSchema,
   createdAt: z.string(),
 });

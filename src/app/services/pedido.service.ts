@@ -20,7 +20,7 @@ export class PedidoService {
     return this.http.get<Pedido[]>(`${this.API_URL}/mesas/${mesaId}/pedidos`);
   }
 
-  addPedido(data: { mesaId: Mesa['id']; platos: Plato['id'] }): Observable<Pedido> {
+  addPedido(data: {}): Observable<Pedido> {
     return this.http.post<Pedido>(`${this.API_URL}/pedidos`, data);
   }
 }

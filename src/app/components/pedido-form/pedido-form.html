@@ -17,18 +17,15 @@
 
     <form [formGroup]="pedidoForm" (ngSubmit)="enviarPedido()">
       <div class="ticket-items">
-        @for (control of platosFormArray.controls; track $index) {
-          @let info = obtenerInfoPlato(control.value);
-
-          <div class="item-linea">
-            <span>{{ info?.nombre }}</span>
-            <span class="precio-linea">{{ info?.precio | currency: 'ARS' }}</span>
-            <button type="button" class="btn-eliminar" (click)="eliminarPlatoDelPedido($index)">
-              ✕
-            </button>
-          </div>
-        } @empty {
-          <p class="ticket-vacio">El ticket está vacío. Toca los platos de la izquierda.</p>
+        @for (p of pedidosActuales; track p.id) {
+          <!-- Entramos al arreglo de platos de este pedido específico -->
+          @for (plato of p.platos; track plato.id) {
+            <div class="item-linea">
+              <span>{{ plato.nombre }}</span>
+              <!-- Ahora sí es un objeto individual -->
+              <span class="precio-linea">{{ plato.precio | currency: 'ARS' }}</span>
+            </div>
+          }
         }
       </div>
 

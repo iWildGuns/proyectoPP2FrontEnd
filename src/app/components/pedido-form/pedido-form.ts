@@ -19,6 +19,7 @@ export class PedidoForm implements OnInit {
 
   pedidosSubject$ = new BehaviorSubject<Pedido[]>([]);
   pedidos$: Observable<Pedido[]> = this.pedidosSubject$.asObservable();
+  pedidosActuales: Pedido[] | [] = [];
 
   private fb = inject(FormBuilder);
   private pedidoService = inject(PedidoService);
@@ -27,15 +28,23 @@ export class PedidoForm implements OnInit {
   pedidoForm!: FormGroup;
   isSubmitting: boolean = false;
 
-  pedidosActuales: Pedido[] | [] = [];
-
   constructor() {}
 
   ngOnInit(): void {
     this.pedidoForm = this.fb.group({
-      // mesa: ['', [Validators.required, Validators.min(1)]],
-      platoId: this.fb.array([], Validators.minLength(1)),
+      // Usamos un validador manual en lugar de Validators.minLength
+      platoId: this.fb.array(
+        [],
+        [
+          (control) => {
+            // Si el arreglo existe y tiene al menos 1 elemento, es válido (null).
+            // Si está vacío, es inválido ({ vacio: true }).
+            return control.value && control.value.length > 0 ? null : { vacio: true };
+          },
+        ],
+      ),
     });
+
     this.getPedidos();
   }
 
@@ -53,7 +62,17 @@ export class PedidoForm implements OnInit {
   }
 
   agregarPlatoAlPedido(platoId: Plato['id']) {
+    // --- EL INTERROGATORIO ---
     this.platosFormArray.push(this.fb.control(platoId));
+    console.log('¿Formulario Válido?:', this.pedidoForm.valid);
+    console.log('Errores del Form Padre:', this.pedidoForm.errors);
+    console.log('Errores del Array de platos:', this.platosFormArray.errors);
+
+    this.platosFormArray.controls.forEach((c, index) => {
+      if (c.invalid) {
+        console.log(`El plato #${index} es inválido por:`, c.errors);
+      }
+    });
   }
 
   eliminarPlatoDelPedido(index: number) {
@@ -71,7 +90,7 @@ export class PedidoForm implements OnInit {
     }, 0);
   }
 
-  cancelar() {
+  onCancel() {
     this.formClosed.emit();
   }
 
@@ -79,11 +98,21 @@ export class PedidoForm implements OnInit {
     if (this.pedidoForm.invalid) return;
 
     this.isSubmitting = true;
-    const payload = this.pedidoForm.value;
+    const payload = {
+      mesaId: Number(this.mesa?.id),
+      platoId: this.pedidoForm.value.platoId,
+    };
 
     console.log('Payload listo para mandar al bachend', payload);
     console.log(payload);
-    this.pedidoService.addPedido(payload);
+    this.pedidoService.addPedido(payload).subscribe({
+      next: (data) => {
+        console.log('guardadno en base de datos', data);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
   }
 
   onSubmit() {

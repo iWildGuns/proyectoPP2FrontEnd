@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
+  EventEmitter,
   inject,
-  Output,
   Input,
   OnChanges,
+  Output,
   SimpleChanges,
-  EventEmitter,
 } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { MesaService, PedidoService, PlatoService } from '../../services';
+import { Observable } from 'rxjs';
+import { MesaService, PlatoService } from '../../services';
 import { Mesa, mesaStatus, Pedido, Plato } from '../../types';
 import { PedidoForm } from '../pedido-form/pedido-form';
 
